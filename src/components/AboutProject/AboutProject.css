@@ -65,7 +65,7 @@
 }
 
 .about-project__backend-line {
-	width: 200px;
+	width: 40%;
 	background-color: black;
 	padding: 9px 14px;
 	text-align: center;
@@ -73,7 +73,7 @@
 }
 
 .about-project__frontend-line {
-	width: 200px;
+	width: 60%;
 	background-color: #f2f2f2;
 	padding: 9px 356px;
 	text-align: center;
