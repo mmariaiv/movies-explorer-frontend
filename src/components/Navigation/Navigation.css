@@ -1,0 +1,38 @@
+.nav-list {
+	all: unset;
+	list-style: none;
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	margin: 28px 0;
+	padding: 0;
+}
+
+.nav-list__item {
+	all: unset;
+	font-family: inherit;
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 18px;
+}
+
+.nav-list__item_movies {
+	font-weight: 500;
+}
+
+.nav-list__btn {
+	all: unset;
+	font-family: inherit;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 16px;
+}
+
+.nav-list__btn_signin {
+	color: #fff;
+	border-radius: 3px;
+	background-color: black;
+	padding: 8px 20px;
+}
