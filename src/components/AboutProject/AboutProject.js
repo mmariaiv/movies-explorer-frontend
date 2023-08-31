@@ -3,7 +3,7 @@ function AboutProject() {
 		<>
 			<section className="about-project">
 				<h2 className="title_m">О проекте</h2>
-				<hr className="border border_about-project"></hr>
+				<hr className="border"></hr>
 				<div className="about-project__info">
 					<div className="about-project__info-item">
 						<h3 className="title_s">Дипломный проект включал 5 этапов</h3>
@@ -24,6 +24,8 @@ function AboutProject() {
 				<div className="about-project__line">
 					<div className="about-project__backend-line text_m">1 неделя</div>
 					<div className="about-project__frontend-line text_m">4 недели</div>
+					<p className="about-project__subline text_m">Back-end</p>
+					<p className="about-project__subline text_m">Front-end</p>
 				</div>
 			</section>
 		</>

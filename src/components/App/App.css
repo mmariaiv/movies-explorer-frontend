@@ -7,5 +7,58 @@
 	-ms-text-size-adjust: 100%;
 	-moz-text-size-adjust: 100%;
 	min-width: 320px;
-	width: calc(100% - 70px * 2);
+	width: 100%;
+}
+
+.title_s {
+	font-size: 20px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	margin: 0;
+	padding: 0;
+}
+
+.title_m {
+	font-size: 22px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	margin: 0;
+	padding: 0;
+}
+
+.title_l {
+	text-align: center;
+	font-size: 50px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 58px;
+	margin: 0;
+	padding: 0;
+}
+
+.text_m {
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: 20px;
+	margin: 0;
+	padding: 0;
+}
+
+.text_l {
+	font-size: 18px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: 20px;
+}
+
+.border {
+	color: black;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border: 1px solid black;
+	margin-top: 23px;
 }

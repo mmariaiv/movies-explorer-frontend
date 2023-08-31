@@ -1,10 +1,14 @@
 .header {
 	margin: 0 auto;
 	display: flex;
-	/* width: calc(100% - 70px * 2); */
-	width: 100%;
+	width: calc(100% - 70px * 2);
 	justify-content: space-between;
 	background-color: transparent;
+}
+
+.header_promo {
+	background: #f3c1f8;
+	padding: 0 70px;
 }
 
 .header__info-container {
@@ -40,6 +44,11 @@
 
 	border-radius: 6px;
 	background-color: #f9f9f9;
+}
+
+.header__profile-pic_promo {
+	background-image: url(../../images/user__icon_promo.svg);
+	background-color: #000;
 }
 
 .header__profile-text {
