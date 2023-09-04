@@ -1,0 +1,45 @@
+.movies {
+	margin: 0 auto;
+	width: calc(100% - 70px * 2);
+}
+
+.continue-container {
+	width: 100%;
+	margin: 0 auto;
+	padding: 50px 0 80px 0;
+	display: flex;
+	justify-content: center;
+}
+
+.continue-container__next-btn {
+	all: unset;
+	width: 200px;
+
+	cursor: pointer;
+
+	text-align: center;
+	font-family: inherit;
+	font-size: 12px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+
+	margin: 0;
+	padding: 11px 60px 9px 60px;
+
+	border-radius: 6px;
+	background-color: #f9f9f9;
+}
+
+@media screen and (max-width: 1023px) {
+	.movies {
+		width: calc(100% - 30px * 2);
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.movies {
+		width: calc(100% - 10px * 2);
+		margin: 0 auto;
+	}
+}

@@ -18,7 +18,7 @@ function AboutMe() {
 	}
 
 	return (
-		<section className="aboutme">
+		<section className="aboutme" name="aboutme">
 			<h3 title_m>Студент</h3>
 			<hr className="border" />
 			<div className="aboutme__resume">
@@ -51,44 +51,6 @@ function AboutMe() {
 					alt="Фотография для краткого резюме"
 					className="aboutme__photo"
 				/>
-			</div>
-			<h3 className="text_l aboutme__portfolio-title">Портфолио</h3>
-			<div className="aboutme__link-list">
-				<div className="aboutme__item">
-					<a
-						href="https://github.com/mmariaiv/how-to-learn"
-						target="blank"
-						rel="noopener noreferrer"
-						className="aboutme__link_l"
-					>
-						Статичный сайт
-					</a>
-					<div className="aboutme__link-item">↗</div>
-				</div>
-				<hr className="border border_aboutme" />
-				<div className="aboutme__item">
-					<a
-						href="https://github.com/mmariaiv/how-to-learn"
-						target="blank"
-						rel="noopener noreferrer"
-						className="aboutme__link_l"
-					>
-						Адаптивный сайт
-					</a>
-					<div className="aboutme__link-item">↗</div>
-				</div>
-				<hr className="border border_aboutme" />
-				<div className="aboutme__item">
-					<a
-						href="https://github.com/mmariaiv/how-to-learn"
-						target="blank"
-						rel="noopener noreferrer"
-						className="aboutme__link_l"
-					>
-						Одностраничное приложение
-					</a>
-					<div className="aboutme__link-item">↗</div>
-				</div>
 			</div>
 		</section>
 	);

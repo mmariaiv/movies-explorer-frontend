@@ -16,6 +16,7 @@
 	display: flex;
 	gap: 26px;
 	flex-direction: column;
+	flex-wrap: nowrap;
 }
 
 .about-project__line {
@@ -30,15 +31,15 @@
 
 .about-project__backend-line {
 	background-color: black;
-	padding: 9px 14px;
+	padding: 9px 0;
 	text-align: center;
 	color: white;
 }
 
 .about-project__frontend-line {
 	background-color: #f2f2f2;
-	padding: 9px 356px;
 	text-align: center;
+	padding: 9px 0;
 }
 
 .about-project__subline {

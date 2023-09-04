@@ -1,0 +1,5 @@
+.saved-movies {
+	width: calc(100% - 70px * 2);
+	margin: 0 auto;
+	padding-bottom: 140px;
+}

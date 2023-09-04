@@ -10,6 +10,14 @@
 	width: 100%;
 }
 
+.logo {
+	width: 38px;
+	height: 38px;
+	margin: 18px 0;
+	object-fit: contain;
+	object-position: center;
+}
+
 .title_s {
 	font-size: 20px;
 	font-style: normal;
@@ -61,4 +69,20 @@
 	padding: 0;
 	border: 1px solid black;
 	margin-top: 23px;
+}
+
+.border_light {
+	color: #e8e8e8;
+	border: 1px solid #e8e8e8;
+	margin: 0;
+}
+
+.opacity_button:hover {
+	opacity: 0.8;
+	transition: opacity 0.5s ease-in-out;
+}
+
+.opacity_link:hover {
+	opacity: 0.7;
+	transition: opacity 0.5s ease-in-out;
 }

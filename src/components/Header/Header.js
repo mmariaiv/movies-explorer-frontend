@@ -1,12 +1,15 @@
 import Navigation from "../Navigation/Navigation";
 import headerLogo from "../../images/header__logo.svg";
+import { useLocation } from "react-router-dom";
 
 function Header() {
+	const location = useLocation();
 	const isLoggedIn = true;
-	const headerPromo = true;
 	return (
 		<>
-			<header className={`header ${headerPromo && "header_promo"}`}>
+			<header
+				className={`header ${location.pathname === "/" && "header_promo"}`}
+			>
 				<img
 					src={headerLogo}
 					alt="Логотип дипломного проекта movies-explorer"
@@ -19,7 +22,7 @@ function Header() {
 							<p className="header__profile-text">Аккаунт</p>
 							<div
 								className={`header__profile-pic ${
-									headerPromo && "header__profile-pic_promo"
+									location.pathname === "/" && "header__profile-pic_promo"
 								}`}
 							></div>
 						</div>
