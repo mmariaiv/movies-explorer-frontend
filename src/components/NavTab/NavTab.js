@@ -4,13 +4,13 @@ function NavTab() {
 	return (
 		<section className="navtab">
 			<div className="navtab__links">
-				<HashLink to="#aboutproject" className="navtab__link">
+				<HashLink smooth to="/#aboutproject" className="navtab__link">
 					О проекте
 				</HashLink>
-				<HashLink to="#techs" className="navtab__link">
+				<HashLink smooth to="/#techs" className="navtab__link">
 					Технологии
 				</HashLink>
-				<HashLink to="#aboutme" className="navtab__link">
+				<HashLink smooth to="/#aboutme" className="navtab__link">
 					Студент
 				</HashLink>
 			</div>

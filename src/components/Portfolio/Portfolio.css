@@ -36,7 +36,11 @@
 }
 
 .portfolio__item {
+	all: unset;
+	color: black;
+	font-family: inherit;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	cursor: pointer;
 }

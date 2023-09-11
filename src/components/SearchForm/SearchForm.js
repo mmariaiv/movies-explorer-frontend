@@ -40,7 +40,7 @@ function SearchForm() {
 							<span className="search__input-error movie-input-error"></span>
 						</label>
 						<button
-							className="search__submit-btn"
+							className="search__submit-btn opacity_button"
 							type="submit"
 							onSubmit={handleSubmit}
 						>

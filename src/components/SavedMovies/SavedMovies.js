@@ -3,10 +3,12 @@ import SearchForm from "../SearchForm/SearchForm";
 
 function SavedMovies() {
 	return (
-		<section className="saved-movies">
-			<SearchForm />
-			<MoviesCardList />
-		</section>
+		<main className="content">
+			<section className="saved-movies">
+				<SearchForm />
+				<MoviesCardList />
+			</section>
+		</main>
 	);
 }
 

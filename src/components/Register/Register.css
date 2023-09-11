@@ -1,21 +1,3 @@
-.header_auth {
-	margin: 0 auto;
-	max-width: 396px;
-	padding: 70px 0 40px 0;
-	display: flex;
-	flex-direction: column;
-	gap: 40px;
-}
-
-.header__title {
-	color: #000;
-	font-family: inherit;
-	font-size: 24px;
-	font-style: normal;
-	font-weight: 500;
-	line-height: normal;
-}
-
 .register {
 	max-width: 396px;
 	margin: 0 auto;
@@ -74,6 +56,8 @@
 	font-style: normal;
 	font-weight: 500;
 	line-height: normal;
+
+	cursor: pointer;
 }
 
 .auth__signup {
@@ -98,4 +82,22 @@
 .auth__text_type_link {
 	color: #000;
 	text-decoration: none;
+
+	cursor: pointer;
+}
+
+.auth__form-label {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+
+.auth__input-title {
+	color: #a0a0a0;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	margin: 0;
+	padding: 0;
 }
