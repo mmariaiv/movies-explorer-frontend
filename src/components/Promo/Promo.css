@@ -16,3 +16,9 @@
 	max-width: 730px;
 	margin: 0 auto;
 }
+
+@media screen and (max-width: 1023px) {
+	.promo {
+		padding: 326px 0 342px 0;
+	}
+}

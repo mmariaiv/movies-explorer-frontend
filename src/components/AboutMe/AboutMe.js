@@ -19,7 +19,7 @@ function AboutMe() {
 
 	return (
 		<section className="aboutme" name="aboutme">
-			<h3 title_m>Студент</h3>
+			<h3 className="title_m">Студент</h3>
 			<hr className="border" />
 			<div className="aboutme__resume">
 				<div className="aboutme__info">
@@ -41,7 +41,7 @@ function AboutMe() {
 						href="https://github.com/mmariaiv"
 						target="blank"
 						rel="noopener noreferrer"
-						className="aboutme__link_s"
+						className="aboutme__link_s opacity_link"
 					>
 						Github
 					</a>

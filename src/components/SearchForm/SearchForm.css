@@ -129,3 +129,13 @@
 .border_searchform {
 	margin-top: 60px;
 }
+
+@media screen and (max-width: 1023px) {
+	.searchform {
+		padding: 80px 0 10px 0;
+	}
+
+	.border_searchform {
+		margin-top: 70px;
+	}
+}

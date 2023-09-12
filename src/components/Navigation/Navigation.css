@@ -4,8 +4,11 @@
 	display: flex;
 	gap: 20px;
 	align-items: center;
-	margin: 28px 0;
 	padding: 0;
+}
+
+.nav-list_unlogged {
+	gap: 30px;
 }
 
 .nav-list__item {
@@ -38,4 +41,24 @@
 	background-color: black;
 	padding: 8px 20px;
 	cursor: pointer;
+}
+
+.header__profile_menu {
+	gap: 13px;
+	justify-content: center;
+}
+
+@media screen and (max-width: 1023px) {
+	.nav-list {
+		display: none;
+	}
+}
+
+.nav-list_burger-menu {
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+	justify-content: center;
+	align-items: center;
+	margin: 0 auto;
 }

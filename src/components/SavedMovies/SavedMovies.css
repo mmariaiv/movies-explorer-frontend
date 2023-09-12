@@ -3,3 +3,16 @@
 	margin: 0 auto;
 	padding-bottom: 140px;
 }
+
+@media screen and (max-width: 1023px) {
+	.saved-movies {
+		width: calc(100% - 30px * 2);
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.saved-movies {
+		width: calc(100% - 10px * 2);
+		margin: 0 auto;
+	}
+}

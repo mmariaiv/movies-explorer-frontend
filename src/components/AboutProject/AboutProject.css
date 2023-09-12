@@ -46,3 +46,13 @@
 	text-align: center;
 	color: #a0a0a0;
 }
+
+@media screen and (max-width: 1023px) {
+	.about-project {
+		width: calc(100% - 50px * 2);
+	}
+
+	.about-project__info {
+		gap: 30px;
+	}
+}
