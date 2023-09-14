@@ -10,6 +10,10 @@
 	background-position: center;
 	padding-top: 184px;
 	padding-bottom: 224px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .promo__title {
@@ -20,5 +24,19 @@
 @media screen and (max-width: 1023px) {
 	.promo {
 		padding: 326px 0 342px 0;
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.promo {
+		background-size: 248px;
+		padding: 207px 0 246px 0;
+	}
+
+	.promo__title {
+		max-width: 300px;
+		font-size: 31px;
+		line-height: 39px;
+		letter-spacing: -1.24px;
 	}
 }

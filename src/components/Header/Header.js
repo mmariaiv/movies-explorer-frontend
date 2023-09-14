@@ -2,6 +2,7 @@ import Navigation from "../Navigation/Navigation";
 import headerLogo from "../../images/header__logo.svg";
 import { useLocation, Link } from "react-router-dom";
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 function Header() {
 	const location = useLocation();
@@ -25,12 +26,15 @@ function Header() {
 		<>
 			{location.pathname === "/signup" || location.pathname === "/signin" ? (
 				<header className="header_auth">
-					<div className="header__container">
-						<img
-							className="logo"
-							src={headerLogo}
-							alt="Логотип дипломного проекта movies-explorer"
-						/>
+					<div className="header__container header__container_auth">
+						<Link to="/" className="opacity_link">
+							<img
+								className="logo"
+								src={headerLogo}
+								alt="Логотип дипломного проекта movies-explorer"
+							/>
+						</Link>
+
 						<h1 className="header__title">{toggleGreeting()}</h1>
 					</div>
 				</header>

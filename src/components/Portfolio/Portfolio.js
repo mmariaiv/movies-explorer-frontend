@@ -12,7 +12,7 @@ function Portfolio() {
 					<p className="portfolio__link">Статичный сайт</p>
 					<div className="portfolio__link-item">↗</div>
 				</a>
-				<hr className="border border_light" />
+				<hr className="border border_light border_portfolio" />
 				<a
 					className="portfolio__item opacity_link"
 					href="https://mmariaiv.github.io/russian-travel/"
@@ -22,7 +22,7 @@ function Portfolio() {
 					<p className="portfolio__link">Адаптивный сайт</p>
 					<div className="portfolio__link-item">↗</div>
 				</a>
-				<hr className="border border_light" />
+				<hr className="border border_light border_portfolio" />
 				<a
 					className="portfolio__item opacity_link"
 					href="https://m.mmariaiv.nomoreparties.co"

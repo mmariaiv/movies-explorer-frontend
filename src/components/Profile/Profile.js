@@ -5,49 +5,51 @@ function Profile() {
 	return (
 		<main className="content">
 			<section className="profile">
-				<h2 className="profile__title">Привет, Виталий!</h2>
-				<form className="edit-profile" name="edit-profile">
-					<div className="edit-profile__inputs-container">
-						<div className="edit-profile__input-container">
-							<label className="edit-profile__label" for="name-input">
-								Имя
-							</label>
-							<input
-								name="name"
-								id="name-input"
-								className="edit-profile__input edit-profile_type_name"
-								placeholder="Имя"
-								value="Виталий"
-							/>
+				<div className="profile__edit-container">
+					<h2 className="profile__title">Привет, Виталий!</h2>
+					<form className="edit-profile" name="edit-profile">
+						<div className="edit-profile__inputs-container">
+							<div className="edit-profile__input-container">
+								<label className="edit-profile__label" for="name-input">
+									Имя
+								</label>
+								<input
+									name="name"
+									id="name-input"
+									className="edit-profile__input edit-profile_type_name"
+									placeholder="Имя"
+									value="Виталий"
+								/>
+							</div>
+
+							<hr className="border_light" />
+
+							<div className="edit-profile__input-container">
+								<label className="edit-profile__label" for="email-input">
+									Почта
+								</label>
+								<input
+									name="email"
+									id="email-input"
+									className="edit-profile__input edit-profile_type_email"
+									placeholder="Почта"
+									value="pochta@yandex.ru"
+								/>
+							</div>
 						</div>
 
-						<hr className="border_light" />
+						{/* <span className="edit-profile__input-error name-input-error email-input-error"></span> */}
 
-						<div className="edit-profile__input-container">
-							<label className="edit-profile__label" for="email-input">
-								Почта
-							</label>
-							<input
-								name="email"
-								id="email-input"
-								className="edit-profile__input edit-profile_type_email"
-								placeholder="Почта"
-								value="pochta@yandex.ru"
-							/>
-						</div>
-					</div>
-
-					{/* <span className="edit-profile__input-error name-input-error email-input-error"></span> */}
-
-					<button
-						type="submit"
-						className={`edit-profile__submit-btn opacity_button ${
-							toggledButtons && "edit-profile__submit-btn_on"
-						}`}
-					>
-						Сохранить
-					</button>
-				</form>
+						<button
+							type="submit"
+							className={`edit-profile__submit-btn opacity_button ${
+								toggledButtons && "edit-profile__submit-btn_on"
+							}`}
+						>
+							Сохранить
+						</button>
+					</form>
+				</div>
 				<div
 					className={`profile__btns ${toggledButtons && "profile__btns_off"}`}
 				>

@@ -42,4 +42,9 @@
 		width: calc(100% - 10px * 2);
 		margin: 0 auto;
 	}
+
+	.continue-container__next-btn {
+		width: calc(100% - 30px * 2);
+		padding: 11px 0 9px 0;
+	}
 }

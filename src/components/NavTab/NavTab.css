@@ -21,3 +21,14 @@
 	margin: 0;
 	padding: 0;
 }
+
+@media screen and (max-width: 767px) {
+	.navtab__link {
+		font-size: 11px;
+		text-decoration-line: underline;
+	}
+
+	.navtab__links {
+		gap: 24px;
+	}
+}

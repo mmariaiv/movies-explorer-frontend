@@ -7,7 +7,9 @@ function Footer() {
 			</h4>
 			<hr className="border border_light" />
 			<div className="footer__info">
-				<p className="footer__text">&#x0040; {currentDate.getFullYear()}</p>
+				<p className="footer__text footer__text_date">
+					&#x0040; {currentDate.getFullYear()}
+				</p>
 				<ul className="footer__links">
 					<li className="footer__link">
 						<a

@@ -101,3 +101,30 @@
 	margin: 0;
 	padding: 0;
 }
+
+@media screen and (max-width: 767px) {
+	.register {
+		width: calc(100% - 30px * 2);
+	}
+
+	.auth {
+		gap: 240px;
+		justify-content: center;
+
+		margin: 0 auto;
+	}
+
+	.auth__input {
+		padding: 15px;
+		width: calc(100% - 15px * 2);
+		justify-self: center;
+	}
+
+	.auth__text {
+		font-size: 12px;
+	}
+
+	.auth__signup {
+		gap: 8;
+	}
+}

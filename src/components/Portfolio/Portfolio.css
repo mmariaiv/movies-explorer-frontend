@@ -50,3 +50,34 @@
 		width: calc(100% - 50px * 2);
 	}
 }
+
+@media screen and (max-width: 767px) {
+	.portfolio {
+		width: calc(100% - 14px * 2);
+		padding-bottom: 70px;
+	}
+
+	.portfolio__link {
+		font-size: 18px;
+		line-height: 28px;
+		letter-spacing: -0.72px;
+	}
+
+	.portfolio__link-item {
+		max-width: 18px;
+		font-size: 18px;
+		line-height: 28px;
+		letter-spacing: -0.72px;
+	}
+
+	.portfolio__title {
+		margin-bottom: 40px;
+		font-size: 14px;
+		line-height: 20px;
+	}
+
+	.border_portfolio {
+		margin-top: 19px;
+		margin-bottom: 20px;
+	}
+}

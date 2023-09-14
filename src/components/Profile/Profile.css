@@ -65,7 +65,7 @@
 	all: unset;
 	display: block;
 	border-radius: 3px;
-	background: #3456f3;
+	background: black;
 	width: 100%;
 	color: #fff;
 	text-align: center;
@@ -106,4 +106,23 @@
 .profile__btn_logout {
 	font-weight: 500;
 	color: #ff4062;
+}
+
+@media screen and (max-width: 767px) {
+	.edit-profile {
+		width: calc(100% - 30px * 2);
+		padding: 0;
+	}
+
+	.profile__title {
+		margin-bottom: 80px;
+	}
+
+	.profile {
+		padding: 70px 0 40px 0;
+		display: flex;
+		height: 80vh;
+		flex-direction: column;
+		justify-content: space-between;
+	}
 }

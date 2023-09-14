@@ -106,8 +106,15 @@
 		max-width: 240px;
 	}
 
+	.moviescard__pic-container {
+		width: 100%;
+	}
+
 	.moviescard__description {
-		gap: 8px;
+		/* gap: 8px; */
+		width: 100%;
+		gap: none;
+		justify-content: space-between;
 	}
 
 	.moviescard {
@@ -115,6 +122,10 @@
 	}
 
 	.moviescard__img {
+		width: 100%;
+	}
+
+	.moviescard {
 		width: 100%;
 	}
 }

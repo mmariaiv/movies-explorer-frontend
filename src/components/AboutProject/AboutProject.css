@@ -56,3 +56,23 @@
 		gap: 30px;
 	}
 }
+
+@media screen and (max-width: 767px) {
+	.about-project {
+		width: calc(100% - 18px * 2);
+		padding-bottom: 69px;
+	}
+
+	.about-project__info {
+		flex-direction: column;
+		gap: 56px;
+	}
+
+	.about-project__info-item {
+		gap: 16px;
+	}
+
+	.about-project__line {
+		margin-top: 60px;
+	}
+}

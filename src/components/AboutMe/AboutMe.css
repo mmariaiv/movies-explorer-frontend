@@ -68,3 +68,50 @@
 		gap: 49px;
 	}
 }
+
+@media screen and (max-width: 767px) {
+	.aboutme {
+		width: calc(100% - 14px * 2);
+		padding: 70px 0;
+	}
+
+	.aboutme__resume {
+		flex-direction: column-reverse;
+		gap: 40px;
+	}
+
+	.aboutme__title {
+		margin: 0;
+	}
+
+	.aboutme__info {
+		gap: 20px;
+	}
+
+	.aboutme__subtitle {
+		margin: 0;
+	}
+
+	.aboutme__text {
+		margin: 0;
+		font-size: 11px;
+	}
+
+	.aboutme__link_s {
+		margin-top: 20px;
+	}
+
+	.aboutme__photo {
+		margin-top: 60px;
+		width: 100%;
+	}
+
+	.title_l {
+		font-size: 30px;
+		letter-spacing: -1.2px;
+	}
+
+	.text_l {
+		font-size: 11px;
+	}
+}

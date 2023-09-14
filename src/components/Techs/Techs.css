@@ -49,3 +49,40 @@
 		margin: 0 auto;
 	}
 }
+
+@media screen and (max-width: 767px) {
+	.techs__container {
+		width: calc(100% - 18px * 2);
+	}
+
+	.techs {
+		padding: 70px 0;
+		background-color: white;
+	}
+
+	.techs__stack {
+		display: grid;
+		grid-template-columns: repeat(2, max-content);
+		grid-template-rows: repeat(4, 1fr);
+		column-gap: 10px;
+		row-gap: 10px;
+	}
+
+	.techs__about {
+		gap: 24px;
+		max-width: 100%;
+		margin-top: 60px;
+		margin-bottom: 50px;
+	}
+
+	.title_l {
+		font-size: 30px;
+		letter-spacing: -1.2px;
+		width: 100%;
+	}
+
+	.text_m {
+		font-size: 11px;
+		letter-spacing: -0.44px;
+	}
+}

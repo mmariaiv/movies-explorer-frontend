@@ -9,10 +9,11 @@ import Profile from "../Profile/Profile";
 import Login from "../Login/Login";
 import Register from "../Register/Register";
 import NotFound from "../NotFound/NotFound";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 function App() {
-	const [loggedIn, setLoggedIn] = React.useState(true);
+	const [loggedIn, setLoggedIn] = React.useState(false);
+	const location = useLocation();
 	return (
 		<>
 			<div className="page">
@@ -28,7 +29,7 @@ function App() {
 					<Route path="/signup" element={<Register />} />
 				</Routes>
 
-				{loggedIn && <Footer />}
+				{loggedIn && location.pathname !== "/profile" && <Footer />}
 			</div>
 		</>
 	);
