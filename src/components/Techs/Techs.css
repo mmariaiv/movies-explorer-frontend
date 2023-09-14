@@ -62,10 +62,14 @@
 
 	.techs__stack {
 		display: grid;
-		grid-template-columns: repeat(2, max-content);
+		grid-template-columns: repeat(2, calc(100% / 3 - 10px));
 		grid-template-rows: repeat(4, 1fr);
 		column-gap: 10px;
 		row-gap: 10px;
+	}
+
+	.techs__item {
+		width: 100%;
 	}
 
 	.techs__about {

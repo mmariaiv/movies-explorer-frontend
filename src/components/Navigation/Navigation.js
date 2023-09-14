@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 function Navigation(props) {
-	const isLoggedIn = true;
+	const isLoggedIn = false;
 	const location = useLocation();
 
 	return (

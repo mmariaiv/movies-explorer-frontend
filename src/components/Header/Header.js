@@ -6,7 +6,7 @@ import { NavLink } from "react-router-dom";
 
 function Header() {
 	const location = useLocation();
-	const isLoggedIn = true;
+	const isLoggedIn = false;
 	const [isBurgerMenuClicked, setIsBurgerMenuClicked] = React.useState(false);
 
 	function handleBurgerMenuCLick() {
@@ -46,11 +46,13 @@ function Header() {
 				>
 					<div className={`${isBurgerMenuClicked && "header__menu-opacity"}`}>
 						<div className="header__container">
-							<img
-								src={headerLogo}
-								alt="Логотип дипломного проекта movies-explorer"
-								className="logo"
-							/>
+							<Link to="/" className="opacity_link">
+								<img
+									className="logo"
+									src={headerLogo}
+									alt="Логотип дипломного проекта movies-explorer"
+								/>
+							</Link>
 							<div
 								className={`header__info-container ${
 									isBurgerMenuClicked && "header__info-container_burger"

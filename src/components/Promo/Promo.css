@@ -34,7 +34,7 @@
 	}
 
 	.promo__title {
-		max-width: 300px;
+		width: calc(100% - 10px * 2);
 		font-size: 31px;
 		line-height: 39px;
 		letter-spacing: -1.24px;
