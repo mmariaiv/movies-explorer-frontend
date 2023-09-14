@@ -102,6 +102,25 @@
 	padding: 0;
 }
 
+.auth__input-error {
+	color: #ff4062;
+	font-family: inherit;
+	font-size: 10px;
+	font-style: normal;
+	font-weight: 400;
+	line-height: normal;
+	margin: 0;
+	padding: 0;
+}
+
+.auth__submit-btn:disabled {
+	background-color: #f8f8f8;
+	color: #c2c2c2;
+	transition: background-color 0.5s ease-in-out;
+	transition: color 0.5s ease-in-out;
+	cursor: default;
+}
+
 @media screen and (max-width: 767px) {
 	.register {
 		width: calc(100% - 30px * 2);

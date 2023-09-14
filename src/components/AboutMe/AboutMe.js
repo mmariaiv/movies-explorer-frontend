@@ -18,7 +18,7 @@ function AboutMe() {
 	}
 
 	return (
-		<section className="aboutme" name="aboutme">
+		<section className="aboutme" id="aboutme">
 			<h3 className="title_m">Студент</h3>
 			<hr className="border" />
 			<div className="aboutme__resume">

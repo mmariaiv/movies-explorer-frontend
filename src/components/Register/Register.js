@@ -1,10 +1,30 @@
+import React from "react";
+import { useFormWithValidation } from "../../utils/UseFormWithValidation";
 import { Link } from "react-router-dom";
 
 function Register() {
+	const { values, handleChange, errors, isValid, resetForm } =
+		useFormWithValidation();
+
+	function handleSubmit(evt) {
+		evt.preventDefault();
+
+		console.log(isValid, values);
+	}
+
+	React.useEffect(() => {
+		resetForm();
+	}, [resetForm]);
+
 	return (
 		<main className="content">
 			<section className="register">
-				<form className="auth" name="register">
+				<form
+					className="auth"
+					name="register"
+					noValidate
+					onSubmit={handleSubmit}
+				>
 					<div className="register__form">
 						<label className="auth__form-label">
 							<p className="auth__input-title">Имя</p>
@@ -14,10 +34,14 @@ function Register() {
 								id="name-input"
 								placeholder="Имя"
 								type="text"
+								minLength="2"
+								maxLength="20"
 								required
-								value="Виталий"
+								onChange={handleChange}
 							/>
-							<span className="auth__input-error name-input-error"></span>
+							<span className="auth__input-error name-input-error">
+								{errors?.name}
+							</span>
 						</label>
 						<label className="auth__form-label">
 							<p className="auth__input-title">E-mail</p>
@@ -28,9 +52,11 @@ function Register() {
 								placeholder="Почта"
 								type="email"
 								required
-								value="pochta@yandex.ru"
+								onChange={handleChange}
 							/>
-							<span className="auth__input-error email-input-error"></span>
+							<span className="auth__input-error email-input-error">
+								{errors?.email}
+							</span>
 						</label>
 						<label className="auth__form-label">
 							<p className="auth__input-title">Пароль</p>
@@ -40,13 +66,21 @@ function Register() {
 								id="password-input"
 								placeholder="Пароль"
 								type="password"
+								minLength="8"
 								required
+								onChange={handleChange}
 							/>
-							<span className="auth__input-error password-input-error"></span>
+							<span className="auth__input-error password-input-error">
+								{errors?.password}
+							</span>
 						</label>
 					</div>
 
-					<button className="auth__submit-btn opacity_button" type="submit">
+					<button
+						className="auth__submit-btn opacity_button"
+						type="submit"
+						disabled={!isValid}
+					>
 						Зарегистрироваться
 					</button>
 				</form>
