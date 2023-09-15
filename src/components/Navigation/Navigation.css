@@ -57,6 +57,10 @@
 		display: none;
 	}
 
+	.nav-list_unlogged {
+		display: flex;
+	}
+
 	.nav-list__item {
 		font-size: 18px;
 		font-weight: 500;

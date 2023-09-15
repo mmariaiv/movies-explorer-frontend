@@ -9,14 +9,16 @@ import Portfolio from "../Portfolio/Portfolio";
 
 function Main() {
 	return (
-		<main className="content">
-			<Promo />
-			<NavTab />
-			<AboutProject />
-			<Techs />
-			<AboutMe />
-			<Portfolio />
-		</main>
+		<section className="main">
+			<main className="content">
+				<Promo />
+				<NavTab />
+				<AboutProject />
+				<Techs />
+				<AboutMe />
+				<Portfolio />
+			</main>
+		</section>
 	);
 }
 

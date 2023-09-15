@@ -10,12 +10,14 @@ import Login from "../Login/Login";
 import Register from "../Register/Register";
 import NotFound from "../NotFound/NotFound";
 import { Navigate, useLocation } from "react-router-dom";
+import { CurrentLoginContext } from "../../contexts/CurrentLoginContext";
 
 function App() {
-	const [loggedIn, setLoggedIn] = React.useState(false);
+	const [loggedIn, setLoggedIn] = React.useState(true);
 	const location = useLocation();
+
 	return (
-		<>
+		<CurrentLoginContext.Provider value={loggedIn}>
 			<div className="page">
 				<Header />
 				<Routes>
@@ -29,9 +31,12 @@ function App() {
 					<Route path="/signup" element={<Register />} />
 				</Routes>
 
-				{loggedIn && location.pathname !== "/profile" && <Footer />}
+				{((loggedIn && location.pathname !== "/profile") ||
+					location.pathname === "/movies" ||
+					location.pathname === "/saved-movies" ||
+					location.pathname === "/") && <Footer />}
 			</div>
-		</>
+		</CurrentLoginContext.Provider>
 	);
 }
 

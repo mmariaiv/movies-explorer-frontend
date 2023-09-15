@@ -3,10 +3,11 @@ import headerLogo from "../../images/header__logo.svg";
 import { useLocation, Link } from "react-router-dom";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { CurrentLoginContext } from "../../contexts/CurrentLoginContext";
 
 function Header() {
 	const location = useLocation();
-	const isLoggedIn = false;
+	const isLoggedIn = React.useContext(CurrentLoginContext);
 	const [isBurgerMenuClicked, setIsBurgerMenuClicked] = React.useState(false);
 
 	function handleBurgerMenuCLick() {
@@ -59,7 +60,7 @@ function Header() {
 								} ${
 									location.pathname === "/" &&
 									"header__info-container_burger_promo"
-								}`}
+								} ${!isLoggedIn && "header__info-container_unauth"}`}
 							>
 								<Navigation burgerMenu={isBurgerMenuClicked} />
 								{isLoggedIn && (
@@ -78,22 +79,27 @@ function Header() {
 									</Link>
 								)}
 							</div>
-							<button
-								className={`header__menu-burger-btn opacity_button header__close-btn_off ${
-									isBurgerMenuClicked && "header__close-btn"
-								}`}
-								onClick={handleBurgerMenuCLick}
-							></button>
-							<button
-								className={`header__menu-burger-btn opacity_button ${
-									isBurgerMenuClicked && "header__menu-burger-btn_off"
-								}`}
-								onClick={handleBurgerMenuCLick}
-							>
-								<div className="header__menu-item"></div>
-								<div className="header__menu-item"></div>
-								<div className="header__menu-item"></div>
-							</button>
+
+							{isLoggedIn && (
+								<>
+									<button
+										className={`header__menu-burger-btn opacity_button header__close-btn_off ${
+											isBurgerMenuClicked && "header__close-btn"
+										}`}
+										onClick={handleBurgerMenuCLick}
+									></button>
+									<button
+										className={`header__menu-burger-btn opacity_button ${
+											isBurgerMenuClicked && "header__menu-burger-btn_off"
+										}`}
+										onClick={handleBurgerMenuCLick}
+									>
+										<div className="header__menu-item"></div>
+										<div className="header__menu-item"></div>
+										<div className="header__menu-item"></div>
+									</button>
+								</>
+							)}
 						</div>
 					</div>
 				</header>
