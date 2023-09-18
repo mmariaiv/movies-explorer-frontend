@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormWithValidation } from "../../utils/UseFormWithValidation";
 
-function Profile() {
+function Profile(props) {
 	const [toggledButtons, setToggledButtons] = React.useState(false);
 	const { values, handleChange, errors, isValid, resetForm } =
 		useFormWithValidation();
@@ -15,6 +15,10 @@ function Profile() {
 
 		setToggledButtons(false);
 		console.log(isValid, values);
+	}
+
+	function handleSignOut() {
+		props.onSignOut();
 	}
 
 	React.useEffect(() => {
@@ -89,7 +93,10 @@ function Profile() {
 					>
 						Редактировать
 					</button>
-					<button className="profile__btn profile__btn_logout opacity_button">
+					<button
+						className="profile__btn profile__btn_logout opacity_button"
+						onClick={handleSignOut}
+					>
 						Выйти из аккаунта
 					</button>
 				</div>

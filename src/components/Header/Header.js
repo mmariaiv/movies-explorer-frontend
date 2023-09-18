@@ -5,9 +5,8 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { CurrentLoginContext } from "../../contexts/CurrentLoginContext";
 
-function Header() {
+function Header(props) {
 	const location = useLocation();
-	const isLoggedIn = React.useContext(CurrentLoginContext);
 	const [isBurgerMenuClicked, setIsBurgerMenuClicked] = React.useState(false);
 
 	function handleBurgerMenuCLick() {
@@ -60,10 +59,13 @@ function Header() {
 								} ${
 									location.pathname === "/" &&
 									"header__info-container_burger_promo"
-								} ${!isLoggedIn && "header__info-container_unauth"}`}
+								} ${!props.loggedIn && "header__info-container_unauth"}`}
 							>
-								<Navigation burgerMenu={isBurgerMenuClicked} />
-								{isLoggedIn && (
+								<Navigation
+									burgerMenu={isBurgerMenuClicked}
+									loggedIn={props.loggedIn}
+								/>
+								{props.loggedIn && (
 									<Link
 										to="/profile"
 										className={`header__profile opacity_link ${
@@ -80,7 +82,7 @@ function Header() {
 								)}
 							</div>
 
-							{isLoggedIn && (
+							{props.loggedIn && (
 								<>
 									<button
 										className={`header__menu-burger-btn opacity_button header__close-btn_off ${

@@ -8,7 +8,7 @@ function Navigation(props) {
 
 	return (
 		<>
-			{isLoggedIn ? (
+			{props.loggedIn ? (
 				<>
 					<div
 						className={`nav-list ${props.burgerMenu && "nav-list_burger-menu"}`}

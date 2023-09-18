@@ -1,13 +1,32 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormWithValidation } from "../../utils/UseFormWithValidation";
+import { api } from "../../utils/MainApi";
 
-function Login() {
+function Login(props) {
 	const { values, handleChange, errors, isValid, resetForm } =
 		useFormWithValidation();
+	const navigate = useNavigate();
 
 	function handleSubmit(evt) {
 		evt.preventDefault();
+
+		// if (!values.name || !values.password) {
+		// 	return;
+		// }
+
+		api
+			.login(values.email, values.password)
+			.then((data) => {
+				if (data) {
+					props.handleLogin();
+
+					navigate("/movies", { replace: true });
+				}
+			})
+			.catch((err) => {
+				console.log(err, "error in signing in");
+			});
 
 		console.log(isValid, values);
 	}
@@ -22,12 +41,12 @@ function Login() {
 				<form className="auth" name="login" noValidate onSubmit={handleSubmit}>
 					<div className="login__form">
 						<label className="auth__form-label">
-							<p className="auth__input-title">Имя</p>
+							<p className="auth__input-title">E-mail</p>
 							<input
 								className="auth__input auth__input_type_name"
-								name="name"
-								id="name-input"
-								placeholder="Имя"
+								name="email"
+								id="email-input"
+								placeholder="E-mail"
 								minLength="2"
 								maxLength="20"
 								type="text"

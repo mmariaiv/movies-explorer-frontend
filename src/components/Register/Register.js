@@ -1,15 +1,31 @@
 import React from "react";
 import { useFormWithValidation } from "../../utils/UseFormWithValidation";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { api } from "../../utils/MainApi";
 
 function Register() {
 	const { values, handleChange, errors, isValid, resetForm } =
 		useFormWithValidation();
 
+	const [regStatus, setRegStatus] = React.useState();
+	const navigate = useNavigate();
+
 	function handleSubmit(evt) {
 		evt.preventDefault();
-
-		console.log(isValid, values);
+		api
+			.register(values.email, values.name, values.password)
+			.then((res) => {
+				console.log(res);
+				setRegStatus(true);
+			})
+			.catch((err) => {
+				setRegStatus(false);
+				console.log(err, "error in register process");
+			})
+			.finally(() => {
+				console.log("success in registration", values);
+				navigate("/signin", { replace: true });
+			});
 	}
 
 	React.useEffect(() => {
