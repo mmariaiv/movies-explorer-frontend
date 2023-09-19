@@ -1,10 +1,12 @@
 import React from "react";
 import { useFormWithValidation } from "../../utils/UseFormWithValidation";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Profile(props) {
 	const [toggledButtons, setToggledButtons] = React.useState(false);
 	const { values, handleChange, errors, isValid, resetForm } =
 		useFormWithValidation();
+	const currentUser = React.useContext(CurrentUserContext);
 
 	function handleToggleButtons() {
 		setToggledButtons(!toggledButtons);
@@ -13,8 +15,12 @@ function Profile(props) {
 	function handleSubmit(evt) {
 		evt.preventDefault();
 
+		props.onUpdateUser({
+			email: values.email,
+			name: values.name,
+		});
+
 		setToggledButtons(false);
-		console.log(isValid, values);
 	}
 
 	function handleSignOut() {
@@ -22,13 +28,16 @@ function Profile(props) {
 	}
 
 	React.useEffect(() => {
+		values.name = currentUser.userName;
+		values.email = currentUser.userEmail;
 		resetForm();
-	}, [resetForm]);
+	}, [resetForm, currentUser]);
+
 	return (
 		<main className="content">
 			<section className="profile">
 				<div className="profile__edit-container">
-					<h2 className="profile__title">Привет, Виталий!</h2>
+					<h2 className="profile__title">Привет, {currentUser.userName}</h2>
 					<form
 						className="edit-profile"
 						name="edit-profile"
@@ -44,11 +53,12 @@ function Profile(props) {
 									name="name"
 									id="name-input"
 									className="edit-profile__input edit-profile_type_name"
-									placeholder="Имя"
+									placeholder={currentUser.userName}
 									disabled={!toggledButtons}
 									minLength="2"
 									maxLength="20"
 									onChange={handleChange}
+									defaultValue={currentUser.userName}
 								/>
 							</div>
 
@@ -62,9 +72,10 @@ function Profile(props) {
 									name="email"
 									id="email-input"
 									className="edit-profile__input edit-profile_type_email"
-									placeholder="Почта"
+									placeholder={currentUser.userEmail}
 									disabled={!toggledButtons}
 									onChange={handleChange}
+									defaultValue={currentUser.userEmail}
 								/>
 							</div>
 						</div>

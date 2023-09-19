@@ -1,0 +1,11 @@
+.placeholder {
+	display: flex;
+	height: 40vh;
+	justify-content: center;
+	align-items: center;
+	padding: 60px 0;
+}
+
+.placeholder__title {
+	font-size: 36px;
+}

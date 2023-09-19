@@ -1,21 +1,41 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MoviePic from "../../images/movie_pic.png";
 import { useLocation } from "react-router-dom";
 import { useResize } from "../../utils/UseResize";
 
-function MoviesCard() {
+function MoviesCard({ key, movie, onMovieDelete, onSaveMovie, savedMovies }) {
+	const [isSaved, setIsSaved] = React.useState(false);
 	const location = useLocation();
-	const [isSaveBtnClicked, setIsSaveBtnClicked] = React.useState(false);
 	const [isMoused, setIsMoused] = React.useState(false);
 	const { width } = useResize();
 
+	function handleDeleteClick() {
+		onMovieDelete(movie);
+	}
+
 	function handleSaveClick() {
-		setIsSaveBtnClicked(!isSaveBtnClicked);
+		onSaveMovie(movie);
+	}
+
+	function calcDuration() {
+		return `${Math.floor(movie.duration / 60)}ч ${movie.duration % 60}м`;
 	}
 
 	function handleMouse() {
 		setIsMoused(!isMoused);
 	}
+
+	function checkSaving() {
+		if (savedMovies) {
+			setIsSaved(
+				savedMovies.some((savedMovie) => savedMovie.movieId === movie.id)
+			);
+		}
+	}
+
+	React.useEffect(() => {
+		checkSaving();
+	});
 
 	return (
 		<div
@@ -25,11 +45,15 @@ function MoviesCard() {
 		>
 			<div className="moviescard__pic-container">
 				<img
-					alt="Изображение фильма"
-					src={MoviePic}
+					alt={movie.nameRU}
+					src={
+						location.pathname === "/saved-movies"
+							? movie.image
+							: `https://api.nomoreparties.co${movie.image.url}`
+					}
 					className="moviescard__img"
 				/>
-				{!isSaveBtnClicked && (isMoused || width < 768) && (
+				{!isSaved && (isMoused || width < 768) && (
 					<button
 						onClick={handleSaveClick}
 						className={
@@ -42,20 +66,23 @@ function MoviesCard() {
 					</button>
 				)}
 
-				{isSaveBtnClicked && (
+				{isSaved && (
 					<button
 						className="moviescard__saved-btn"
-						onClick={handleSaveClick}
+						onClick={handleDeleteClick}
 					></button>
 				)}
 
 				{location.pathname === "/saved-movies" && (isMoused || width < 768) && (
-					<button className="moviescard__delete-btn"></button>
+					<button
+						className="moviescard__delete-btn"
+						onClick={handleDeleteClick}
+					></button>
 				)}
 			</div>
 			<div className="moviescard__description">
-				<p className="moviescard__title">Пи Джей Харви: A dog called money</p>
-				<p className="moviescard__timelaps">1ч 17м</p>
+				<p className="moviescard__title">{movie.nameRU}</p>
+				<p className="moviescard__timelaps">{calcDuration()}</p>
 			</div>
 		</div>
 	);

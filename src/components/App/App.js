@@ -15,9 +15,12 @@ import Register from "../Register/Register";
 import NotFound from "../NotFound/NotFound";
 
 import { api } from "../../utils/MainApi";
+import { movieApi } from "../../utils/MoviesApi";
 
 function App() {
 	const [loggedIn, setLoggedIn] = React.useState(true);
+
+	const [savedMovies, setSavedMovies] = React.useState([]);
 	const location = useLocation();
 	const navigate = useNavigate();
 
@@ -43,8 +46,6 @@ function App() {
 					if (res) {
 						setLoggedIn(true);
 						setAuthUserEmail(res.email);
-
-						navigate("/movies", { replace: true });
 					}
 				})
 				.catch((err) => {
@@ -57,6 +58,21 @@ function App() {
 		}
 	}
 
+	function handleUpdateUser(newUserInfo) {
+		api
+			.changeUserInfo(newUserInfo)
+			.then((res) => {
+				setCurrentUser({
+					userEmail: res.email,
+					userName: res.name,
+					_id: res._id,
+				});
+			})
+			.catch((err) => {
+				console.log(err, "error in updating userInfo");
+			});
+	}
+
 	function handleSignOut() {
 		localStorage.removeItem("jwt");
 		setAuthUserEmail("");
@@ -64,6 +80,29 @@ function App() {
 
 		navigate("/signin", { replace: true });
 	}
+
+	function handleMovieDelete(movie) {
+		console.log(savedMovies);
+		savedMovies.forEach((savedMovie) => {
+			console.log(movie, savedMovie, movie.id, savedMovie.id);
+			if (savedMovie.movieId === movie.id) {
+				api
+					.deteleMovie(savedMovie._id)
+					.then((res) => {
+						setSavedMovies((state) => {
+							return savedMovies.filter((c) => savedMovie._id !== c._id);
+						});
+					})
+					.catch((err) => {
+						console.log(err, "error in deleting saved movie");
+					});
+			}
+		});
+	}
+
+	// function handleMovieClick(movie) {
+	// 	navigate
+	// }
 
 	React.useEffect(() => {
 		if (!checkToken()) {
@@ -86,7 +125,28 @@ function App() {
 			.catch((err) => {
 				console.log(err, "error in searching userInfo");
 			});
+
+		api
+			.getMovies()
+			.then((movies) => {
+				const currentMoviesList = Array.from(movies.data);
+				setSavedMovies(currentMoviesList);
+			})
+			.catch((err) => {
+				console.log(err, "error in searching saved movies");
+			});
 	}, [loggedIn]);
+
+	function handleMovieSave(newMovieInfo) {
+		api
+			.addMovie(newMovieInfo)
+			.then((res) => {
+				setSavedMovies([res.data, ...savedMovies]);
+			})
+			.catch((err) => {
+				console.log(err, "error in saving new movie");
+			});
+	}
 
 	return (
 		<CurrentUserContext.Provider value={currentUser}>
@@ -97,25 +157,27 @@ function App() {
 					<Route path="/404" element={<NotFound />} />
 					<Route path="/" element={<Main />} />
 
-					{/* <Route
-						path="/movies"
-						element={
-							loggedIn ? (
-								<Navigate to="/main" replace />
-							) : (
-								<Navigate to="/signin" replace />
-							)
-						}
-					/> */}
-
 					<Route
 						path="/movies"
-						element={<ProtectedRoute element={Movies} loggedIn={loggedIn} />}
+						element={
+							<ProtectedRoute
+								element={Movies}
+								loggedIn={loggedIn} // TODO: НЕ ЗАБУДЬ УДАЛИТЬ ПЕРЕД РЕВЬЮ!!!
+								onMovieDelete={handleMovieDelete}
+								onSaveMovie={handleMovieSave}
+								savedMoviesList={savedMovies}
+							/>
+						}
 					/>
 					<Route
 						path="/saved-movies"
 						element={
-							<ProtectedRoute element={SavedMovies} loggedIn={loggedIn} />
+							<ProtectedRoute
+								element={SavedMovies}
+								savedMoviesList={savedMovies}
+								loggedIn={loggedIn}
+								onMovieDelete={handleMovieDelete}
+							/>
 						}
 					/>
 					<Route
@@ -125,11 +187,15 @@ function App() {
 								element={Profile}
 								onSignOut={handleSignOut}
 								loggedIn={loggedIn}
+								onUpdateUser={handleUpdateUser}
 							/>
 						}
 					/>
 					<Route path="/signin" element={<Login handleLogin={handleLogin} />} />
-					<Route path="/signup" element={<Register />} />
+					<Route
+						path="/signup"
+						element={<Register handleLogin={handleLogin} />}
+					/>
 				</Routes>
 
 				{loggedIn && location.pathname !== "/profile" && <Footer />}

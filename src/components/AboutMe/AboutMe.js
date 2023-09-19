@@ -11,7 +11,6 @@ function AboutMe() {
 
 	function getCurrentAge() {
 		const currentDate = new Date();
-		console.log(currentDate);
 		const currentAge = currentDate.getFullYear() - 2003;
 
 		return `${currentAge} ${declOfNum(currentAge, ["год", "года", "лет"])}`;

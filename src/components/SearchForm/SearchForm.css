@@ -2,6 +2,7 @@
 	margin: 0 auto;
 	width: 100%;
 	padding: 70px 0 10px 0;
+	max-width: 1280px;
 }
 
 .searchform__search-container {

@@ -11,10 +11,6 @@ function Login(props) {
 	function handleSubmit(evt) {
 		evt.preventDefault();
 
-		// if (!values.name || !values.password) {
-		// 	return;
-		// }
-
 		api
 			.login(values.email, values.password)
 			.then((data) => {

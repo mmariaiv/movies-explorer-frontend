@@ -3,12 +3,29 @@ import { useFormWithValidation } from "../../utils/UseFormWithValidation";
 import { Link, useNavigate } from "react-router-dom";
 import { api } from "../../utils/MainApi";
 
-function Register() {
+function Register(props) {
 	const { values, handleChange, errors, isValid, resetForm } =
 		useFormWithValidation();
 
 	const [regStatus, setRegStatus] = React.useState();
 	const navigate = useNavigate();
+
+	function loginProcess() {
+		api
+			.login(values.email, values.password)
+			.then((data) => {
+				if (data) {
+					props.handleLogin();
+
+					navigate("/movies", { replace: true });
+				}
+			})
+			.catch((err) => {
+				console.log(err, "error in signing in");
+			});
+
+		console.log(isValid, values);
+	}
 
 	function handleSubmit(evt) {
 		evt.preventDefault();
@@ -24,7 +41,8 @@ function Register() {
 			})
 			.finally(() => {
 				console.log("success in registration", values);
-				navigate("/signin", { replace: true });
+				loginProcess();
+				// navigate("/movies", { replace: true });
 			});
 	}
 
