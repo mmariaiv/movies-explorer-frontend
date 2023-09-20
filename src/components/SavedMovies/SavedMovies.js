@@ -6,41 +6,52 @@ import PlaceholderNotFound from "../PlaceholderNotFound/PlaceholderNotFound";
 
 function SavedMovies(props) {
 	const [searchFlag, setSearchFlag] = React.useState(false);
-	const [foundMoviesList, setFoundMoviesList] = React.useState();
-	const [movies, setMovies] = React.useState([]);
+	const [foundMoviesList, setFoundMoviesList] = React.useState([]);
 
 	function checkResult() {
-		return !!localStorage.getItem("searchResult");
+		return !!localStorage.getItem("searchResultSavedMovies");
 	}
 
 	function filterMovies() {
-		setSearchFlag(false);
-
 		if (checkResult()) {
 			const movieSearchResult = JSON.parse(
-				localStorage.getItem("searchResult")
+				localStorage.getItem("searchResultSavedMovies")
 			);
+
+			setSearchFlag(false);
 			setFoundMoviesList(searchMovie(movieSearchResult));
+		} else {
+			setFoundMoviesList(props.savedMoviesList);
 		}
 	}
 
 	function searchMovie(inputResult) {
+		console.log(inputResult);
 		const foundMovies = props.savedMoviesList.filter((movie) => {
 			if (inputResult.toggleSwitch) {
 				return (
 					movie.duration <= 40 &&
-					(movie.nameRU.includes(inputResult.movie) ||
-						movie.nameEN.includes(inputResult.movie))
+					(movie.nameRU
+						.toLowerCase()
+						.includes(inputResult.movie.toLowerCase()) ||
+						movie.nameEN
+							.toLowerCase()
+							.includes(inputResult.movie.toLowerCase()))
 				);
 			}
 			return (
-				movie.nameEN.includes(inputResult.movie) ||
-				movie.nameRU.includes(inputResult.movie)
+				movie.nameEN.toLowerCase().includes(inputResult.movie.toLowerCase()) ||
+				movie.nameRU.toLowerCase().includes(inputResult.movie.toLowerCase())
 			);
 		});
 
+		console.log(foundMovies);
 		return foundMovies;
 	}
+
+	React.useEffect(() => {
+		filterMovies();
+	}, [props.savedMoviesList]);
 
 	React.useEffect(() => {
 		filterMovies();
@@ -49,8 +60,8 @@ function SavedMovies(props) {
 	return (
 		<main className="content">
 			<section className="saved-movies">
-				<SearchForm updateFlag={setSearchFlag} />
-				{movies.length < 1 ? (
+				<SearchForm updateFlag={setSearchFlag} formFor="SavedMovies" />
+				{!props.savedMoviesList ? (
 					<Preloader />
 				) : foundMoviesList.length < 1 ? (
 					<PlaceholderNotFound />
@@ -58,6 +69,7 @@ function SavedMovies(props) {
 					<>
 						<MoviesCardList
 							onMovieDelete={props.onMovieDelete}
+							foundSavedMoviesList={foundMoviesList}
 							savedMoviesList={props.savedMoviesList}
 						/>
 					</>

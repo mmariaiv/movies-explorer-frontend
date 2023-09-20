@@ -5,20 +5,16 @@ import { useLocation } from "react-router-dom";
 function MoviesCardList(props) {
 	const location = useLocation();
 
-	React.useEffect(() => {
-		console.log(props.savedMoviesList);
-	});
 	return (
 		<section className="moviescardlist">
 			<div className="movies-list">
 				{location.pathname === "/saved-movies" &&
-					props?.savedMoviesList?.map((savedMovie) => {
-						console.log(savedMovie);
+					props?.foundSavedMoviesList?.map((savedMovie) => {
 						return (
 							<MoviesCard
 								key={savedMovie.id}
 								movie={savedMovie}
-								onCardDelete={props.onCardDelete}
+								onMovieDelete={props.onMovieDelete}
 								savedMovies={props.savedMoviesList}
 							/>
 						);

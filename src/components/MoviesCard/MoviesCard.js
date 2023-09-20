@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import MoviePic from "../../images/movie_pic.png";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useResize } from "../../utils/UseResize";
+import { Link } from "react-router-dom";
 
 function MoviesCard({ key, movie, onMovieDelete, onSaveMovie, savedMovies }) {
 	const [isSaved, setIsSaved] = React.useState(false);
@@ -10,8 +11,16 @@ function MoviesCard({ key, movie, onMovieDelete, onSaveMovie, savedMovies }) {
 	const { width } = useResize();
 
 	function handleDeleteClick() {
-		onMovieDelete(movie);
+		if (movie._id) {
+			onMovieDelete(movie.movieId);
+		} else {
+			onMovieDelete(movie.id);
+		}
 	}
+
+	// function handleMoviePicClick() {
+	// 	navigate(`${movie.trailerLink}`, { replace: true });
+	// }
 
 	function handleSaveClick() {
 		onSaveMovie(movie);
@@ -44,15 +53,22 @@ function MoviesCard({ key, movie, onMovieDelete, onSaveMovie, savedMovies }) {
 			onMouseLeave={handleMouse}
 		>
 			<div className="moviescard__pic-container">
-				<img
-					alt={movie.nameRU}
-					src={
-						location.pathname === "/saved-movies"
-							? movie.image
-							: `https://api.nomoreparties.co${movie.image.url}`
-					}
-					className="moviescard__img"
-				/>
+				<a
+					href={movie.trailerLink}
+					className="opacity_link moviescard__image-container"
+					target="blank"
+					rel="noopener noreferrer"
+				>
+					<img
+						alt={movie.nameRU}
+						src={
+							location.pathname === "/saved-movies"
+								? movie.image
+								: `https://api.nomoreparties.co${movie.image.url}`
+						}
+						className="moviescard__img"
+					/>
+				</a>
 				{!isSaved && (isMoused || width < 768) && (
 					<button
 						onClick={handleSaveClick}

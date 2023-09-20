@@ -85,6 +85,7 @@
 
 .search__form-label {
 	display: flex;
+	width: 80%;
 }
 
 .searchform__vertical-border {
@@ -166,7 +167,6 @@
 
 	.searchform__search-container:focus-within {
 		box-shadow: none;
-		opacity: 0;
 		transition: none;
 	}
 
@@ -185,16 +185,16 @@
 
 	.searchform__formfield {
 		width: calc(100% - 10px * 2);
-		box-shadow: 0px 3px 14px 0px rgba(0, 0, 0, 0.08);
+		/* box-shadow: none; */
 		border-radius: 9px;
 		justify-content: center;
-		transition: all 0.5s ease-in-out;
+		/* transition: none; */
 	}
 
 	.searchform__formfield:focus-within {
-		box-shadow: 0 0 500px 0px black;
+		box-shadow: none;
 
-		transition: all 0.5s ease-in-out;
+		transition: none;
 		background-color: white;
 	}
 

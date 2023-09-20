@@ -7,6 +7,20 @@
 	align-content: center;
 }
 
+.auth__submit-container {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	align-items: center;
+	justify-content: center;
+}
+.backend-input-error {
+	text-align: center;
+	margin: 0 auto;
+	justify-self: center;
+}
+
 .register__form {
 	width: 100%;
 	display: flex;

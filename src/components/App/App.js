@@ -18,13 +18,15 @@ import { api } from "../../utils/MainApi";
 import { movieApi } from "../../utils/MoviesApi";
 
 function App() {
-	const [loggedIn, setLoggedIn] = React.useState(true);
+	const [loggedIn, setLoggedIn] = React.useState(false);
+
+	const [currentErrorProfile, setCurrentErrorProfile] = React.useState("");
+	const [isProfileChanged, setIsProfileChanged] = React.useState(false);
 
 	const [savedMovies, setSavedMovies] = React.useState([]);
+
 	const location = useLocation();
 	const navigate = useNavigate();
-
-	const [authUserEmail, setAuthUserEmail] = React.useState("");
 
 	function handleLogin() {
 		setLoggedIn(true);
@@ -45,11 +47,12 @@ function App() {
 				.then((res) => {
 					if (res) {
 						setLoggedIn(true);
-						setAuthUserEmail(res.email);
+
+						navigate("/movies", { replace: true });
 					}
 				})
 				.catch((err) => {
-					console.log(err, "error im checking token");
+					console.log(err, "error in checking token");
 				});
 
 			return true;
@@ -67,25 +70,33 @@ function App() {
 					userName: res.name,
 					_id: res._id,
 				});
+				setCurrentErrorProfile("");
+				setIsProfileChanged(true);
 			})
 			.catch((err) => {
+				if (err === 500) {
+					setCurrentErrorProfile("На сервере произошла ошибка.");
+				} else if (err === 409) {
+					setCurrentErrorProfile("Пользователь с таким email уже существует.");
+				} else {
+					setCurrentErrorProfile("При обновлении профиля произошла ошибка.");
+				}
+				setIsProfileChanged(false);
 				console.log(err, "error in updating userInfo");
 			});
 	}
 
 	function handleSignOut() {
-		localStorage.removeItem("jwt");
-		setAuthUserEmail("");
+		localStorage.clear();
 		setLoggedIn(false);
 
-		navigate("/signin", { replace: true });
+		navigate("/", { replace: true });
 	}
 
-	function handleMovieDelete(movie) {
+	function handleMovieDelete(movieId) {
 		console.log(savedMovies);
 		savedMovies.forEach((savedMovie) => {
-			console.log(movie, savedMovie, movie.id, savedMovie.id);
-			if (savedMovie.movieId === movie.id) {
+			if (savedMovie.movieId === movieId) {
 				api
 					.deteleMovie(savedMovie._id)
 					.then((res) => {
@@ -99,10 +110,6 @@ function App() {
 			}
 		});
 	}
-
-	// function handleMovieClick(movie) {
-	// 	navigate
-	// }
 
 	React.useEffect(() => {
 		if (!checkToken()) {
@@ -162,7 +169,7 @@ function App() {
 						element={
 							<ProtectedRoute
 								element={Movies}
-								loggedIn={loggedIn} // TODO: НЕ ЗАБУДЬ УДАЛИТЬ ПЕРЕД РЕВЬЮ!!!
+								loggedIn={loggedIn}
 								onMovieDelete={handleMovieDelete}
 								onSaveMovie={handleMovieSave}
 								savedMoviesList={savedMovies}
@@ -188,6 +195,8 @@ function App() {
 								onSignOut={handleSignOut}
 								loggedIn={loggedIn}
 								onUpdateUser={handleUpdateUser}
+								currentError={currentErrorProfile}
+								isChanged={isProfileChanged}
 							/>
 						}
 					/>

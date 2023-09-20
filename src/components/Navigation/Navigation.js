@@ -1,9 +1,7 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { CurrentLoginContext } from "../../contexts/CurrentLoginContext";
 
 function Navigation(props) {
-	const isLoggedIn = React.useContext(CurrentLoginContext);
 	const location = useLocation();
 
 	return (

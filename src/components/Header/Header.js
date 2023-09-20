@@ -3,7 +3,7 @@ import headerLogo from "../../images/header__logo.svg";
 import { useLocation, Link } from "react-router-dom";
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { CurrentLoginContext } from "../../contexts/CurrentLoginContext";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function Header(props) {
 	const location = useLocation();

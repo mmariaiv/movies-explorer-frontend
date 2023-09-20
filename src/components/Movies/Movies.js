@@ -4,14 +4,20 @@ import Preloader from "../Preloader/Preloader";
 import SearchForm from "../SearchForm/SearchForm";
 import PlaceholderNotFound from "../PlaceholderNotFound/PlaceholderNotFound";
 import { movieApi } from "../../utils/MoviesApi";
+import { useResize } from "../../utils/UseResize";
 
 function Movies(props) {
+	const { width } = useResize();
 	const [searchFlag, setSearchFlag] = React.useState(false);
-	const [foundMoviesList, setFoundMoviesList] = React.useState();
+	const [foundMoviesList, setFoundMoviesList] = React.useState([]);
 	const [movies, setMovies] = React.useState([]);
+	const [countMoviesOnPage, setCountMoviesOnPage] = React.useState(
+		width <= 766 ? 5 : width <= 1022 ? 8 : 12
+	);
+	const [maxFoundMoviesCount, setMaxFoundMoviesCount] = React.useState(0);
 
 	function checkResult() {
-		return !!localStorage.getItem("searchResult");
+		return !!localStorage.getItem("searchResultMovies");
 	}
 
 	function filterMovies() {
@@ -19,8 +25,12 @@ function Movies(props) {
 
 		if (checkResult()) {
 			const movieSearchResult = JSON.parse(
-				localStorage.getItem("searchResult")
+				localStorage.getItem("searchResultMovies")
 			);
+			if (movieSearchResult.movie === "") {
+				return;
+			}
+
 			setFoundMoviesList(searchMovie(movieSearchResult));
 		}
 	}
@@ -30,23 +40,44 @@ function Movies(props) {
 			if (inputResult.toggleSwitch) {
 				return (
 					movie.duration <= 40 &&
-					(movie.nameRU.includes(inputResult.movie) ||
-						movie.nameEN.includes(inputResult.movie))
+					(movie.nameRU
+						.toLowerCase()
+						.includes(inputResult.movie.toLowerCase()) ||
+						movie.nameEN
+							.toLowerCase()
+							.includes(inputResult.movie.toLowerCase()))
 				);
 			}
 			return (
-				movie.nameRU.includes(inputResult.movie) ||
-				movie.nameEN.includes(inputResult.movie)
+				movie.nameRU.toLowerCase().includes(inputResult.movie.toLowerCase()) ||
+				movie.nameEN.toLowerCase().includes(inputResult.movie.toLowerCase())
 			);
 		});
 
-		return foundMovies;
+		setMaxFoundMoviesCount(foundMovies.length);
+		return foundMovies.slice(0, countMoviesOnPage);
+	}
+
+	function handleCalculateShowedMovies() {
+		console.log(width, countMoviesOnPage);
+		if (width <= 766) {
+			setCountMoviesOnPage(countMoviesOnPage + 5);
+			console.log("1", countMoviesOnPage + 5);
+		} else if (width <= 1022) {
+			setCountMoviesOnPage(countMoviesOnPage + 8);
+			console.log("2", countMoviesOnPage + 8);
+		} else {
+			setCountMoviesOnPage(countMoviesOnPage + 12);
+			console.log("3", countMoviesOnPage + 12);
+		}
+
+		console.log(countMoviesOnPage);
 	}
 
 	React.useEffect(() => {
 		// console.log(movies);
 		filterMovies();
-	}, [searchFlag]);
+	}, [searchFlag, countMoviesOnPage]);
 
 	React.useEffect(() => {
 		movieApi
@@ -60,13 +91,10 @@ function Movies(props) {
 			});
 	}, []);
 
-	// React.useEffect(() => {
-	// 	filterMovies();
-	// });
 	return (
 		<main className="content">
 			<section className="movies">
-				<SearchForm updateFlag={setSearchFlag} />
+				<SearchForm updateFlag={setSearchFlag} formFor="Movies" />
 				{movies.length < 1 ? (
 					<Preloader />
 				) : foundMoviesList.length < 1 ? (
@@ -80,9 +108,16 @@ function Movies(props) {
 							onSaveMovie={props.onSaveMovie}
 						/>
 
-						<div className="continue-container">
-							<button className="continue-container__next-btn">Ещё</button>
-						</div>
+						{countMoviesOnPage < maxFoundMoviesCount && (
+							<div className="continue-container">
+								<button
+									className="continue-container__next-btn"
+									onClick={handleCalculateShowedMovies}
+								>
+									Ещё
+								</button>
+							</div>
+						)}
 					</>
 				)}
 			</section>

@@ -4,7 +4,6 @@ import { useLocation } from "react-router-dom";
 function SearchForm(props) {
 	const [movie, setMovie] = React.useState("");
 	const [toggleSwitch, setToggleSwitch] = React.useState(false);
-	const location = useLocation();
 
 	function handleMovieChange(event) {
 		setMovie(event.target.value);
@@ -14,7 +13,7 @@ function SearchForm(props) {
 		event.preventDefault();
 
 		localStorage.setItem(
-			"searchResult",
+			"searchResult" + props.formFor,
 			JSON.stringify({ movie: movie, toggleSwitch: toggleSwitch })
 		);
 		props.updateFlag(true);
@@ -27,12 +26,12 @@ function SearchForm(props) {
 	}
 
 	React.useEffect(() => {
-		const storage = JSON.parse(localStorage.getItem("searchResult"));
-		if (location.pathname === "/movies") {
-			if (storage) {
-				setMovie(storage.movie);
-				setToggleSwitch(storage.toggleSwitch);
-			}
+		const storage = JSON.parse(
+			localStorage.getItem("searchResult" + props.formFor)
+		);
+		if (storage) {
+			setMovie(storage.movie);
+			setToggleSwitch(storage.toggleSwitch);
 		}
 	}, []);
 
@@ -54,7 +53,7 @@ function SearchForm(props) {
 								id="movie-input"
 								className="search__input"
 								type="text"
-								required
+								required={props.formFor !== "SavedMovies"}
 								onChange={handleMovieChange}
 								value={movie}
 								placeholder="Фильм"

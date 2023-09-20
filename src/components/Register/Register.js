@@ -6,25 +6,25 @@ import { api } from "../../utils/MainApi";
 function Register(props) {
 	const { values, handleChange, errors, isValid, resetForm } =
 		useFormWithValidation();
+	const [currentError, setCurrentError] = React.useState("");
 
 	const [regStatus, setRegStatus] = React.useState();
 	const navigate = useNavigate();
 
 	function loginProcess() {
-		api
-			.login(values.email, values.password)
-			.then((data) => {
-				if (data) {
-					props.handleLogin();
-
-					navigate("/movies", { replace: true });
-				}
-			})
-			.catch((err) => {
-				console.log(err, "error in signing in");
-			});
-
-		console.log(isValid, values);
+		if (regStatus(true)) {
+			api
+				.login(values.email, values.password)
+				.then((data) => {
+					if (data) {
+						props.handleLogin();
+						navigate("/movies", { replace: true });
+					}
+				})
+				.catch((err) => {
+					console.log(err, "error in signing in");
+				});
+		}
 	}
 
 	function handleSubmit(evt) {
@@ -32,17 +32,21 @@ function Register(props) {
 		api
 			.register(values.email, values.name, values.password)
 			.then((res) => {
-				console.log(res);
 				setRegStatus(true);
+				setCurrentError("");
+				loginProcess();
 			})
 			.catch((err) => {
 				setRegStatus(false);
+				if (err === 409) {
+					setCurrentError("Пользователь с таким email уже существует.");
+				} else if (err === 500) {
+					setCurrentError("На сервере произошла ошибка.");
+				} else {
+					setCurrentError("При регистрации пользователя произошла ошибка.");
+				}
+				console.log(err);
 				console.log(err, "error in register process");
-			})
-			.finally(() => {
-				console.log("success in registration", values);
-				loginProcess();
-				// navigate("/movies", { replace: true });
 			});
 	}
 
@@ -110,13 +114,21 @@ function Register(props) {
 						</label>
 					</div>
 
-					<button
-						className="auth__submit-btn opacity_button"
-						type="submit"
-						disabled={!isValid}
-					>
-						Зарегистрироваться
-					</button>
+					<div className="auth__submit-container">
+						{currentError && (
+							<span className="auth__input-error backend-input-error">
+								{currentError}
+							</span>
+						)}
+
+						<button
+							className="auth__submit-btn opacity_button"
+							type="submit"
+							disabled={!isValid}
+						>
+							Зарегистрироваться
+						</button>
+					</div>
 				</form>
 
 				<div className="auth__signup">

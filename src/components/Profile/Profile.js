@@ -20,7 +20,10 @@ function Profile(props) {
 			name: values.name,
 		});
 
-		setToggledButtons(false);
+		if (props.isChanged) {
+			setToggledButtons(false);
+		}
+		// setToggledButtons(false);
 	}
 
 	function handleSignOut() {
@@ -82,6 +85,7 @@ function Profile(props) {
 
 						<span className="edit-profile__input-error name-input-error email-input-error">
 							{errors.name ? `Имя: ${errors.name}` : errors?.email}
+							{props.currentError && `${props.currentError}`}
 						</span>
 
 						<button

@@ -7,6 +7,7 @@ function Login(props) {
 	const { values, handleChange, errors, isValid, resetForm } =
 		useFormWithValidation();
 	const navigate = useNavigate();
+	const [currentError, setCurrentError] = React.useState("");
 
 	function handleSubmit(evt) {
 		evt.preventDefault();
@@ -18,9 +19,23 @@ function Login(props) {
 					props.handleLogin();
 
 					navigate("/movies", { replace: true });
+					setCurrentError("");
 				}
 			})
 			.catch((err) => {
+				if (err === 401) {
+					setCurrentError(" Вы ввели неправильный логин или пароль.");
+				} else if (err === 403) {
+					setCurrentError(
+						"При авторизации произошла ошибка. Токен не передан или передан не в том формате."
+					);
+				} else if (err === 500) {
+					setCurrentError("На сервере произошла ошибка.");
+				} else {
+					setCurrentError(
+						"При авторизации произошла ошибка. Переданный токен некорректен."
+					);
+				}
 				console.log(err, "error in signing in");
 			});
 
@@ -44,7 +59,6 @@ function Login(props) {
 								id="email-input"
 								placeholder="E-mail"
 								minLength="2"
-								maxLength="20"
 								type="text"
 								required
 								onChange={handleChange}
@@ -71,13 +85,21 @@ function Login(props) {
 						</label>
 					</div>
 
-					<button
-						className="auth__submit-btn opacity_button"
-						type="submit"
-						disabled={!isValid}
-					>
-						Войти
-					</button>
+					<div className="auth__submit-container">
+						{currentError && (
+							<span className="auth__input-error backend-input-error">
+								{currentError}
+							</span>
+						)}
+
+						<button
+							className="auth__submit-btn opacity_button"
+							type="submit"
+							disabled={!isValid}
+						>
+							Войти
+						</button>
+					</div>
 				</form>
 
 				<div className="auth__signup">
