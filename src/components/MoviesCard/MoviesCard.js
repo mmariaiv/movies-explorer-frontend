@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
-import MoviePic from "../../images/movie_pic.png";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useResize } from "../../utils/UseResize";
-import { Link } from "react-router-dom";
 
-function MoviesCard({ key, movie, onMovieDelete, onSaveMovie, savedMovies }) {
+function MoviesCard({ movie, onMovieDelete, onSaveMovie, savedMovies }) {
 	const [isSaved, setIsSaved] = React.useState(false);
 	const location = useLocation();
 	const [isMoused, setIsMoused] = React.useState(false);
@@ -17,10 +15,6 @@ function MoviesCard({ key, movie, onMovieDelete, onSaveMovie, savedMovies }) {
 			onMovieDelete(movie.id);
 		}
 	}
-
-	// function handleMoviePicClick() {
-	// 	navigate(`${movie.trailerLink}`, { replace: true });
-	// }
 
 	function handleSaveClick() {
 		onSaveMovie(movie);

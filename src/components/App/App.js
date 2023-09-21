@@ -15,13 +15,9 @@ import Register from "../Register/Register";
 import NotFound from "../NotFound/NotFound";
 
 import { api } from "../../utils/MainApi";
-import { movieApi } from "../../utils/MoviesApi";
 
 function App() {
 	const [loggedIn, setLoggedIn] = React.useState(false);
-
-	const [currentErrorProfile, setCurrentErrorProfile] = React.useState("");
-	const [isProfileChanged, setIsProfileChanged] = React.useState(false);
 
 	const [savedMovies, setSavedMovies] = React.useState([]);
 
@@ -62,28 +58,13 @@ function App() {
 	}
 
 	function handleUpdateUser(newUserInfo) {
-		api
-			.changeUserInfo(newUserInfo)
-			.then((res) => {
-				setCurrentUser({
-					userEmail: res.email,
-					userName: res.name,
-					_id: res._id,
-				});
-				setCurrentErrorProfile("");
-				setIsProfileChanged(true);
-			})
-			.catch((err) => {
-				if (err === 500) {
-					setCurrentErrorProfile("На сервере произошла ошибка.");
-				} else if (err === 409) {
-					setCurrentErrorProfile("Пользователь с таким email уже существует.");
-				} else {
-					setCurrentErrorProfile("При обновлении профиля произошла ошибка.");
-				}
-				setIsProfileChanged(false);
-				console.log(err, "error in updating userInfo");
+		return api.changeUserInfo(newUserInfo).then((res) => {
+			setCurrentUser({
+				userEmail: res.email,
+				userName: res.name,
+				_id: res._id,
 			});
+		});
 	}
 
 	function handleSignOut() {
@@ -195,8 +176,6 @@ function App() {
 								onSignOut={handleSignOut}
 								loggedIn={loggedIn}
 								onUpdateUser={handleUpdateUser}
-								currentError={currentErrorProfile}
-								isChanged={isProfileChanged}
 							/>
 						}
 					/>

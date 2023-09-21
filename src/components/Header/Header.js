@@ -10,7 +10,6 @@ function Header(props) {
 	const [isBurgerMenuClicked, setIsBurgerMenuClicked] = React.useState(false);
 
 	function handleBurgerMenuCLick() {
-		console.log(isBurgerMenuClicked);
 		setIsBurgerMenuClicked(!isBurgerMenuClicked);
 	}
 

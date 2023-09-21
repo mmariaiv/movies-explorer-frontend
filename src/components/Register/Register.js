@@ -8,23 +8,20 @@ function Register(props) {
 		useFormWithValidation();
 	const [currentError, setCurrentError] = React.useState("");
 
-	const [regStatus, setRegStatus] = React.useState();
 	const navigate = useNavigate();
 
 	function loginProcess() {
-		if (regStatus(true)) {
-			api
-				.login(values.email, values.password)
-				.then((data) => {
-					if (data) {
-						props.handleLogin();
-						navigate("/movies", { replace: true });
-					}
-				})
-				.catch((err) => {
-					console.log(err, "error in signing in");
-				});
-		}
+		api
+			.login(values.email, values.password)
+			.then((data) => {
+				if (data) {
+					props.handleLogin();
+					navigate("/movies", { replace: true });
+				}
+			})
+			.catch((err) => {
+				console.log(err, "error in signing in");
+			});
 	}
 
 	function handleSubmit(evt) {
@@ -32,20 +29,21 @@ function Register(props) {
 		api
 			.register(values.email, values.name, values.password)
 			.then((res) => {
-				setRegStatus(true);
 				setCurrentError("");
 				loginProcess();
 			})
 			.catch((err) => {
-				setRegStatus(false);
 				if (err === 409) {
 					setCurrentError("Пользователь с таким email уже существует.");
 				} else if (err === 500) {
 					setCurrentError("На сервере произошла ошибка.");
+				} else if (err === 400) {
+					setCurrentError(
+						"Поле name содержит только латиницу, кириллицу, пробел или дефис."
+					);
 				} else {
 					setCurrentError("При регистрации пользователя произошла ошибка.");
 				}
-				console.log(err);
 				console.log(err, "error in register process");
 			});
 	}
@@ -73,7 +71,7 @@ function Register(props) {
 								placeholder="Имя"
 								type="text"
 								minLength="2"
-								maxLength="20"
+								maxLength="30"
 								required
 								onChange={handleChange}
 							/>

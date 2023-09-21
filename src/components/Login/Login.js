@@ -38,8 +38,6 @@ function Login(props) {
 				}
 				console.log(err, "error in signing in");
 			});
-
-		console.log(isValid, values);
 	}
 
 	React.useEffect(() => {

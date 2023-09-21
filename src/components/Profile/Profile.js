@@ -6,6 +6,7 @@ function Profile(props) {
 	const [toggledButtons, setToggledButtons] = React.useState(false);
 	const { values, handleChange, errors, isValid, resetForm } =
 		useFormWithValidation();
+	const [currentError, setCurrentError] = React.useState("");
 	const currentUser = React.useContext(CurrentUserContext);
 
 	function handleToggleButtons() {
@@ -15,15 +16,30 @@ function Profile(props) {
 	function handleSubmit(evt) {
 		evt.preventDefault();
 
-		props.onUpdateUser({
-			email: values.email,
-			name: values.name,
-		});
-
-		if (props.isChanged) {
-			setToggledButtons(false);
-		}
-		// setToggledButtons(false);
+		props
+			.onUpdateUser({
+				email: values.email,
+				name: values.name,
+			})
+			.then(() => {
+				setCurrentError("");
+				setToggledButtons(false);
+			})
+			.catch((err) => {
+				console.log(err);
+				if (err === 500) {
+					setCurrentError("На сервере произошла ошибка.");
+				} else if (err === 409) {
+					setCurrentError("Пользователь с таким email уже существует.");
+				} else if (err === 400) {
+					setCurrentError(
+						"Поле name содержит только латиницу, кириллицу, пробел или дефис."
+					);
+				} else {
+					setCurrentError("При обновлении профиля произошла ошибка.");
+				}
+				setToggledButtons(true);
+			});
 	}
 
 	function handleSignOut() {
@@ -49,7 +65,7 @@ function Profile(props) {
 					>
 						<div className="edit-profile__inputs-container">
 							<div className="edit-profile__input-container">
-								<label className="edit-profile__label" for="name-input">
+								<label className="edit-profile__label" htmlFor="name-input">
 									Имя
 								</label>
 								<input
@@ -59,7 +75,7 @@ function Profile(props) {
 									placeholder={currentUser.userName}
 									disabled={!toggledButtons}
 									minLength="2"
-									maxLength="20"
+									maxLength="30"
 									onChange={handleChange}
 									defaultValue={currentUser.userName}
 								/>
@@ -68,7 +84,7 @@ function Profile(props) {
 							<hr className="border_light" />
 
 							<div className="edit-profile__input-container">
-								<label className="edit-profile__label" for="email-input">
+								<label className="edit-profile__label" htmlFor="email-input">
 									Почта
 								</label>
 								<input
@@ -84,8 +100,8 @@ function Profile(props) {
 						</div>
 
 						<span className="edit-profile__input-error name-input-error email-input-error">
-							{errors.name ? `Имя: ${errors.name}` : errors?.email}
-							{props.currentError && `${props.currentError}`}
+							{errors.name ? errors.name : errors?.email}
+							{currentError && `${currentError}`}
 						</span>
 
 						<button

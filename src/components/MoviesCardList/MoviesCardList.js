@@ -12,7 +12,7 @@ function MoviesCardList(props) {
 					props?.foundSavedMoviesList?.map((savedMovie) => {
 						return (
 							<MoviesCard
-								key={savedMovie.id}
+								key={savedMovie._id}
 								movie={savedMovie}
 								onMovieDelete={props.onMovieDelete}
 								savedMovies={props.savedMoviesList}
@@ -23,7 +23,7 @@ function MoviesCardList(props) {
 					props.moviesList.map((foundMovie) => {
 						return (
 							<MoviesCard
-								key={foundMovie._id}
+								key={foundMovie.id}
 								movie={foundMovie}
 								onMovieDelete={props.onMovieDelete}
 								onSaveMovie={props.onSaveMovie}

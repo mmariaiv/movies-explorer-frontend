@@ -2,7 +2,7 @@ import React from "react";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import Preloader from "../Preloader/Preloader";
 import SearchForm from "../SearchForm/SearchForm";
-import PlaceholderNotFound from "../PlaceholderNotFound/PlaceholderNotFound";
+import Placeholder from "../Placeholder/Placeholder";
 import { movieApi } from "../../utils/MoviesApi";
 import { useResize } from "../../utils/UseResize";
 
@@ -11,9 +11,11 @@ function Movies(props) {
 	const [searchFlag, setSearchFlag] = React.useState(false);
 	const [foundMoviesList, setFoundMoviesList] = React.useState([]);
 	const [movies, setMovies] = React.useState([]);
-	const [countMoviesOnPage, setCountMoviesOnPage] = React.useState(
-		width <= 766 ? 5 : width <= 1022 ? 8 : 12
-	);
+	const [hasInternalServerError, setHasInternalServerError] =
+		React.useState(false);
+	const [hasValidationSearchError, setHasValidationSearchError] =
+		React.useState(false);
+	const [numberOfClick, setNumberOfClick] = React.useState(1);
 	const [maxFoundMoviesCount, setMaxFoundMoviesCount] = React.useState(0);
 
 	function checkResult() {
@@ -28,10 +30,14 @@ function Movies(props) {
 				localStorage.getItem("searchResultMovies")
 			);
 			if (movieSearchResult.movie === "") {
+				setHasValidationSearchError(true);
 				return;
 			}
 
+			setHasValidationSearchError(false);
 			setFoundMoviesList(searchMovie(movieSearchResult));
+		} else {
+			setHasValidationSearchError(true);
 		}
 	}
 
@@ -55,29 +61,20 @@ function Movies(props) {
 		});
 
 		setMaxFoundMoviesCount(foundMovies.length);
-		return foundMovies.slice(0, countMoviesOnPage);
+		return foundMovies.slice(0, calculateMoviesOnPage());
+	}
+
+	function calculateMoviesOnPage() {
+		return (width <= 766 ? 5 : width <= 1022 ? 8 : 12) * numberOfClick;
 	}
 
 	function handleCalculateShowedMovies() {
-		console.log(width, countMoviesOnPage);
-		if (width <= 766) {
-			setCountMoviesOnPage(countMoviesOnPage + 5);
-			console.log("1", countMoviesOnPage + 5);
-		} else if (width <= 1022) {
-			setCountMoviesOnPage(countMoviesOnPage + 8);
-			console.log("2", countMoviesOnPage + 8);
-		} else {
-			setCountMoviesOnPage(countMoviesOnPage + 12);
-			console.log("3", countMoviesOnPage + 12);
-		}
-
-		console.log(countMoviesOnPage);
+		setNumberOfClick(numberOfClick + 1);
 	}
 
 	React.useEffect(() => {
-		// console.log(movies);
 		filterMovies();
-	}, [searchFlag, countMoviesOnPage]);
+	}, [searchFlag, numberOfClick, width]);
 
 	React.useEffect(() => {
 		movieApi
@@ -85,8 +82,10 @@ function Movies(props) {
 			.then((initialMovies) => {
 				setMovies(initialMovies);
 				setSearchFlag(true);
+				setHasInternalServerError(false);
 			})
 			.catch((err) => {
+				setHasInternalServerError(true);
 				console.log(err, "error in searching movies");
 			});
 	}, []);
@@ -95,10 +94,14 @@ function Movies(props) {
 		<main className="content">
 			<section className="movies">
 				<SearchForm updateFlag={setSearchFlag} formFor="Movies" />
-				{movies.length < 1 ? (
+				{hasInternalServerError ? (
+					<Placeholder text="Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз" />
+				) : movies.length < 1 ? (
 					<Preloader />
+				) : hasValidationSearchError ? (
+					<Placeholder text="Нужно ввести ключевое слово" />
 				) : foundMoviesList.length < 1 ? (
-					<PlaceholderNotFound />
+					<Placeholder text="Ничего не найдено" />
 				) : (
 					<>
 						<MoviesCardList
@@ -108,7 +111,7 @@ function Movies(props) {
 							onSaveMovie={props.onSaveMovie}
 						/>
 
-						{countMoviesOnPage < maxFoundMoviesCount && (
+						{calculateMoviesOnPage() < maxFoundMoviesCount && (
 							<div className="continue-container">
 								<button
 									className="continue-container__next-btn"

@@ -2,7 +2,7 @@ import React from "react";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm";
 import Preloader from "../Preloader/Preloader";
-import PlaceholderNotFound from "../PlaceholderNotFound/PlaceholderNotFound";
+import Placeholder from "../Placeholder/Placeholder";
 
 function SavedMovies(props) {
 	const [searchFlag, setSearchFlag] = React.useState(false);
@@ -64,7 +64,7 @@ function SavedMovies(props) {
 				{!props.savedMoviesList ? (
 					<Preloader />
 				) : foundMoviesList.length < 1 ? (
-					<PlaceholderNotFound />
+					<Placeholder text="Ничего не найдено" />
 				) : (
 					<>
 						<MoviesCardList

@@ -1,9 +1,9 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
 
 function SearchForm(props) {
 	const [movie, setMovie] = React.useState("");
 	const [toggleSwitch, setToggleSwitch] = React.useState(false);
+	// const [currentError, setCurrentError] = React.useState("");
 
 	function handleMovieChange(event) {
 		setMovie(event.target.value);
@@ -12,17 +12,26 @@ function SearchForm(props) {
 	function handleSubmit(event) {
 		event.preventDefault();
 
+		// if (movie.length < 1) {
+		// 	setCurrentError("Нужно ввести ключевое слово");
+		// 	return;
+		// }
+
 		localStorage.setItem(
 			"searchResult" + props.formFor,
 			JSON.stringify({ movie: movie, toggleSwitch: toggleSwitch })
 		);
 		props.updateFlag(true);
-
-		// console.log(movie);
+		// setCurrentError("");
 	}
 
 	function handleCheckboxClick() {
 		setToggleSwitch(!toggleSwitch);
+		// localStorage.setItem(
+		// 	"searchResult" + props.formFor,
+		// 	JSON.stringify({ movie: movie, toggleSwitch: toggleSwitch })
+		// );
+		// props.updateFlag(true);
 	}
 
 	React.useEffect(() => {
@@ -35,11 +44,14 @@ function SearchForm(props) {
 		}
 	}, []);
 
-	// React.useEffect(() => {
-	// 	if (location.pathname === "/saved-movies") {
-
-	// 	}
-	// }, [])
+	React.useEffect(() => {
+		const storage = JSON.parse(localStorage.getItem("searchResult" + props.formFor));
+		localStorage.setItem(
+			"searchResult" + props.formFor,
+			JSON.stringify({ movie: storage.movie ?? "", toggleSwitch: toggleSwitch })
+		);
+		props.updateFlag(true);
+	}, [toggleSwitch])
 
 	return (
 		<div className="searchform">
@@ -53,15 +65,23 @@ function SearchForm(props) {
 								id="movie-input"
 								className="search__input"
 								type="text"
-								required={props.formFor !== "SavedMovies"}
+								// required={props.formFor !== "SavedMovies"}
 								onChange={handleMovieChange}
 								value={movie}
 								placeholder="Фильм"
 							/>
 
-							<span className="search__input-error movie-input-error"></span>
+							{/* {props.formFor !== "SavedMovies" && currentError && (
+								<span className="search__input-error movie-input-error">
+									{currentError}
+								</span>
+							)} */}
 						</label>
-						<button className="search__submit-btn opacity_button" type="submit">
+						<button
+							className="search__submit-btn opacity_button"
+							type="submit"
+							// disabled={props.formFor !== "SavedMovies" && movie.length < 1}
+						>
 							Найти
 						</button>
 					</form>
