@@ -128,7 +128,7 @@ class MainApi {
 }
 
 export const api = new MainApi({
-	baseUrl: "http://localhost:4000",
+	baseUrl: "https://api.mov-e.mmariaiv.nomoredomainsicu.ru",
 	headers: {
 		"Content-Type": "application/json",
 	},
