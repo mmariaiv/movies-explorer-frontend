@@ -48,7 +48,7 @@ function SearchForm(props) {
 		const storage = JSON.parse(localStorage.getItem("searchResult" + props.formFor));
 		localStorage.setItem(
 			"searchResult" + props.formFor,
-			JSON.stringify({ movie: storage.movie ?? "", toggleSwitch: toggleSwitch })
+			JSON.stringify({ movie: storage?.movie ?? "", toggleSwitch: toggleSwitch })
 		);
 		props.updateFlag(true);
 	}, [toggleSwitch])
