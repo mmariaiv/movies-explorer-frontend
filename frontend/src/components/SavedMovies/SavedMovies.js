@@ -26,7 +26,6 @@ function SavedMovies(props) {
 	}
 
 	function searchMovie(inputResult) {
-		console.log(inputResult);
 		const foundMovies = props.savedMoviesList.filter((movie) => {
 			if (inputResult.toggleSwitch) {
 				return (
@@ -45,7 +44,6 @@ function SavedMovies(props) {
 			);
 		});
 
-		console.log(foundMovies);
 		return foundMovies;
 	}
 
@@ -56,6 +54,10 @@ function SavedMovies(props) {
 	React.useEffect(() => {
 		filterMovies();
 	}, [searchFlag]);
+
+	React.useEffect(() => {
+		localStorage.removeItem("searchResultSavedMovies");
+	}, []);
 
 	return (
 		<main className="content">

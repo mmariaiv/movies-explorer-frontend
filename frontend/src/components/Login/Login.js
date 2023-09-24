@@ -44,6 +44,12 @@ function Login(props) {
 		resetForm();
 	}, [resetForm]);
 
+	React.useEffect(() => {
+		if (props.loggedIn) {
+			navigate("/", { replace: true });
+		}
+	}, [props.loggedIn]);
+
 	return (
 		<main className="content">
 			<section className="login">

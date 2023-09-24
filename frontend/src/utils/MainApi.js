@@ -19,7 +19,6 @@ class MainApi {
 	}
 
 	addMovie(item) {
-		console.log("addMovie()", item);
 		return fetch(this.options.baseUrl + `/movies/`, {
 			method: "POST",
 			headers: this.options.headers,

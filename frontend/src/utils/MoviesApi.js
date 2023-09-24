@@ -11,6 +11,13 @@ class MoviesApi {
 	}
 
 	getAllMovies() {
+		const storage = localStorage.getItem("allMovies");
+		if (storage) {
+			return new Promise(function (resolve, reject) {
+				resolve(JSON.parse(storage));
+			});
+		}
+
 		return fetch(this.options.baseUrl + "/beatfilm-movies", {
 			headers: this.options.headers,
 		})
@@ -19,7 +26,7 @@ class MoviesApi {
 			})
 			.then((data) => {
 				if (data) {
-					localStorage.setItem("allMovies", data);
+					localStorage.setItem("allMovies", JSON.stringify(data));
 					return data;
 				}
 			});

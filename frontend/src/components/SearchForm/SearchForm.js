@@ -38,20 +38,26 @@ function SearchForm(props) {
 		const storage = JSON.parse(
 			localStorage.getItem("searchResult" + props.formFor)
 		);
-		if (storage) {
+		if (storage && props.formFor === "Movies") {
 			setMovie(storage.movie);
 			setToggleSwitch(storage.toggleSwitch);
 		}
 	}, []);
 
 	React.useEffect(() => {
-		const storage = JSON.parse(localStorage.getItem("searchResult" + props.formFor));
+		const storage = JSON.parse(
+			localStorage.getItem("searchResult" + props.formFor)
+		);
+
 		localStorage.setItem(
 			"searchResult" + props.formFor,
-			JSON.stringify({ movie: storage?.movie ?? "", toggleSwitch: toggleSwitch })
+			JSON.stringify({
+				movie: storage?.movie ?? "",
+				toggleSwitch: toggleSwitch,
+			})
 		);
 		props.updateFlag(true);
-	}, [toggleSwitch])
+	}, [toggleSwitch]);
 
 	return (
 		<div className="searchform">

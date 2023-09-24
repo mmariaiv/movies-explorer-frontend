@@ -7,6 +7,7 @@ function Profile(props) {
 	const { values, handleChange, errors, isValid, resetForm } =
 		useFormWithValidation();
 	const [currentError, setCurrentError] = React.useState("");
+	const [successProfileSaved, setSuccessProfileSaved] = React.useState(false);
 	const currentUser = React.useContext(CurrentUserContext);
 
 	function handleToggleButtons() {
@@ -22,7 +23,11 @@ function Profile(props) {
 				name: values.name,
 			})
 			.then(() => {
-				setCurrentError("");
+				setSuccessProfileSaved(true);
+				setTimeout(() => {
+					setSuccessProfileSaved(false);
+				}, 5000);
+
 				setToggledButtons(false);
 			})
 			.catch((err) => {
@@ -50,6 +55,7 @@ function Profile(props) {
 		values.name = currentUser.userName;
 		values.email = currentUser.userEmail;
 		resetForm();
+		setCurrentError("");
 	}, [resetForm, currentUser]);
 
 	return (
@@ -99,13 +105,22 @@ function Profile(props) {
 							</div>
 						</div>
 
-						<span className="edit-profile__input-error name-input-error email-input-error">
+						<span
+							className={
+								"edit-profile__input-error name-input-error email-input-error"
+							}
+						>
+							{successProfileSaved && "Профиль успешно сохранен!"}
 							{errors.name ? errors.name : errors?.email}
 							{currentError && `${currentError}`}
 						</span>
 
 						<button
-							disabled={!isValid}
+							disabled={
+								!isValid ||
+								((!values.email || values.email === currentUser.userEmail) &&
+									(!values.name || values.name === currentUser.userName))
+							}
 							type="submit"
 							className={`edit-profile__submit-btn opacity_button ${
 								toggledButtons && "edit-profile__submit-btn_on"

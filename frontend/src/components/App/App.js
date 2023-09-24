@@ -35,8 +35,13 @@ function App() {
 	});
 
 	function checkToken() {
+		if (loggedIn) {
+			return true;
+		}
+
 		if (localStorage.getItem("jwt")) {
 			const jwt = localStorage.getItem("jwt");
+			const curentPath = location.pathname;
 
 			api
 				.getContent(jwt)
@@ -44,7 +49,7 @@ function App() {
 					if (res) {
 						setLoggedIn(true);
 
-						navigate("/movies", { replace: true });
+						navigate(curentPath, { replace: true });
 					}
 				})
 				.catch((err) => {
@@ -75,7 +80,6 @@ function App() {
 	}
 
 	function handleMovieDelete(movieId) {
-		console.log(savedMovies);
 		savedMovies.forEach((savedMovie) => {
 			if (savedMovie.movieId === movieId) {
 				api
@@ -179,14 +183,19 @@ function App() {
 							/>
 						}
 					/>
-					<Route path="/signin" element={<Login handleLogin={handleLogin} />} />
+					<Route
+						path="/signin"
+						element={<Login loggedIn={loggedIn} handleLogin={handleLogin} />}
+					/>
 					<Route
 						path="/signup"
-						element={<Register handleLogin={handleLogin} />}
+						element={<Register loggedIn={loggedIn} handleLogin={handleLogin} />}
 					/>
 				</Routes>
 
-				{loggedIn && location.pathname !== "/profile" && <Footer />}
+				{loggedIn &&
+					location.pathname !== "/profile" &&
+					location.pathname !== "/404" && <Footer />}
 			</div>
 		</CurrentUserContext.Provider>
 	);

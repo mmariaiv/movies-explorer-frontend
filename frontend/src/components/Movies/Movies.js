@@ -10,12 +10,12 @@ function Movies(props) {
 	const { width } = useResize();
 	const [searchFlag, setSearchFlag] = React.useState(false);
 	const [foundMoviesList, setFoundMoviesList] = React.useState([]);
-	const [movies, setMovies] = React.useState([]);
+	const [isLoading, setIsLoading] = React.useState(false);
 	const [hasInternalServerError, setHasInternalServerError] =
 		React.useState(false);
 	const [hasValidationSearchError, setHasValidationSearchError] =
 		React.useState(false);
-	const [numberOfClick, setNumberOfClick] = React.useState(1);
+	const [numberOfClick, setNumberOfClick] = React.useState(0);
 	const [maxFoundMoviesCount, setMaxFoundMoviesCount] = React.useState(0);
 
 	function checkResult() {
@@ -33,15 +33,28 @@ function Movies(props) {
 				setHasValidationSearchError(true);
 				return;
 			}
-
 			setHasValidationSearchError(false);
-			setFoundMoviesList(searchMovie(movieSearchResult));
+
+			setIsLoading(true);
+			movieApi
+				.getAllMovies()
+				.then((initialMovies) => {
+					setHasInternalServerError(false);
+					setFoundMoviesList(searchMovie(movieSearchResult, initialMovies));
+				})
+				.catch((err) => {
+					setHasInternalServerError(true);
+					console.log(err, "error in searching movies");
+				})
+				.finally(() => {
+					setIsLoading(false);
+				});
 		} else {
 			setHasValidationSearchError(true);
 		}
 	}
 
-	function searchMovie(inputResult) {
+	function searchMovie(inputResult, movies) {
 		const foundMovies = movies.filter((movie) => {
 			if (inputResult.toggleSwitch) {
 				return (
@@ -65,7 +78,8 @@ function Movies(props) {
 	}
 
 	function calculateMoviesOnPage() {
-		return (width <= 766 ? 5 : width <= 1022 ? 8 : 12) * numberOfClick;
+		const minimumCardsOnPage = width <= 766 ? 5 : width <= 1022 ? 8 : 12;
+		return (width <= 1022 ? 2 : 3) * numberOfClick + minimumCardsOnPage;
 	}
 
 	function handleCalculateShowedMovies() {
@@ -77,17 +91,7 @@ function Movies(props) {
 	}, [searchFlag, numberOfClick, width]);
 
 	React.useEffect(() => {
-		movieApi
-			.getAllMovies()
-			.then((initialMovies) => {
-				setMovies(initialMovies);
-				setSearchFlag(true);
-				setHasInternalServerError(false);
-			})
-			.catch((err) => {
-				setHasInternalServerError(true);
-				console.log(err, "error in searching movies");
-			});
+		filterMovies();
 	}, []);
 
 	return (
@@ -96,10 +100,10 @@ function Movies(props) {
 				<SearchForm updateFlag={setSearchFlag} formFor="Movies" />
 				{hasInternalServerError ? (
 					<Placeholder text="Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз" />
-				) : movies.length < 1 ? (
-					<Preloader />
 				) : hasValidationSearchError ? (
 					<Placeholder text="Нужно ввести ключевое слово" />
+				) : isLoading ? (
+					<Preloader />
 				) : foundMoviesList.length < 1 ? (
 					<Placeholder text="Ничего не найдено" />
 				) : (
