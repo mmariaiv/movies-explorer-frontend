@@ -13,63 +13,48 @@ function Movies(props) {
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [hasInternalServerError, setHasInternalServerError] =
 		React.useState(false);
-	const [hasValidationSearchError, setHasValidationSearchError] =
-		React.useState(false);
 	const [numberOfClick, setNumberOfClick] = React.useState(0);
 	const [maxFoundMoviesCount, setMaxFoundMoviesCount] = React.useState(0);
-
-	function checkResult() {
-		return !!localStorage.getItem("searchResultMovies");
-	}
 
 	function filterMovies() {
 		setSearchFlag(false);
 
-		if (checkResult()) {
-			const movieSearchResult = JSON.parse(
-				localStorage.getItem("searchResultMovies")
-			);
-			if (movieSearchResult.movie === "") {
-				setHasValidationSearchError(true);
-				return;
-			}
-			setHasValidationSearchError(false);
+		const movieSearchResult = JSON.parse(
+			localStorage.getItem("searchResultMovies")
+		);
 
-			setIsLoading(true);
-			movieApi
-				.getAllMovies()
-				.then((initialMovies) => {
-					setHasInternalServerError(false);
-					setFoundMoviesList(searchMovie(movieSearchResult, initialMovies));
-				})
-				.catch((err) => {
-					setHasInternalServerError(true);
-					console.log(err, "error in searching movies");
-				})
-				.finally(() => {
-					setIsLoading(false);
-				});
-		} else {
-			setHasValidationSearchError(true);
-		}
+		setIsLoading(true);
+		movieApi
+			.getAllMovies()
+			.then((initialMovies) => {
+				setHasInternalServerError(false);
+				setFoundMoviesList(searchMovie(movieSearchResult, initialMovies));
+			})
+			.catch((err) => {
+				setHasInternalServerError(true);
+				console.log(err, "error in searching movies");
+			})
+			.finally(() => {
+				setIsLoading(false);
+			});
 	}
 
 	function searchMovie(inputResult, movies) {
 		const foundMovies = movies.filter((movie) => {
-			if (inputResult.toggleSwitch) {
+			if (inputResult?.toggleSwitch) {
 				return (
 					movie.duration <= 40 &&
 					(movie.nameRU
 						.toLowerCase()
-						.includes(inputResult.movie.toLowerCase()) ||
+						.includes(inputResult?.movie.toLowerCase()) ||
 						movie.nameEN
 							.toLowerCase()
-							.includes(inputResult.movie.toLowerCase()))
+							.includes(inputResult?.movie.toLowerCase()))
 				);
 			}
 			return (
-				movie.nameRU.toLowerCase().includes(inputResult.movie.toLowerCase()) ||
-				movie.nameEN.toLowerCase().includes(inputResult.movie.toLowerCase())
+				movie.nameRU.toLowerCase().includes(inputResult?.movie.toLowerCase()) ||
+				movie.nameEN.toLowerCase().includes(inputResult?.movie.toLowerCase())
 			);
 		});
 
@@ -94,14 +79,16 @@ function Movies(props) {
 		filterMovies();
 	}, []);
 
+	React.useEffect(() => {
+		setNumberOfClick(0);
+	}, [searchFlag]);
+
 	return (
 		<main className="content">
 			<section className="movies">
 				<SearchForm updateFlag={setSearchFlag} formFor="Movies" />
 				{hasInternalServerError ? (
 					<Placeholder text="Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз" />
-				) : hasValidationSearchError ? (
-					<Placeholder text="Нужно ввести ключевое слово" />
 				) : isLoading ? (
 					<Preloader />
 				) : foundMoviesList.length < 1 ? (
