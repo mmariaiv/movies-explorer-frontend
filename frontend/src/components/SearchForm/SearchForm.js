@@ -2,8 +2,8 @@ import React from "react";
 
 function SearchForm(props) {
 	const [movie, setMovie] = React.useState("");
+	const [isMounted, setIsMounted] = React.useState(false);
 	const [toggleSwitch, setToggleSwitch] = React.useState(false);
-	// const [currentError, setCurrentError] = React.useState("");
 
 	function handleMovieChange(event) {
 		setMovie(event.target.value);
@@ -11,27 +11,10 @@ function SearchForm(props) {
 
 	function handleSubmit(event) {
 		event.preventDefault();
-
-		// if (movie.length < 1) {
-		// 	setCurrentError("Нужно ввести ключевое слово");
-		// 	return;
-		// }
-
-		localStorage.setItem(
-			"searchResult" + props.formFor,
-			JSON.stringify({ movie: movie, toggleSwitch: toggleSwitch })
-		);
-		props.updateFlag(true);
-		// setCurrentError("");
 	}
 
 	function handleCheckboxClick() {
 		setToggleSwitch(!toggleSwitch);
-		// localStorage.setItem(
-		// 	"searchResult" + props.formFor,
-		// 	JSON.stringify({ movie: movie, toggleSwitch: toggleSwitch })
-		// );
-		// props.updateFlag(true);
 	}
 
 	React.useEffect(() => {
@@ -42,7 +25,21 @@ function SearchForm(props) {
 			setMovie(storage.movie);
 			setToggleSwitch(storage.toggleSwitch);
 		}
+
+		setIsMounted(true);
 	}, []);
+
+	React.useEffect(() => {
+		if (!isMounted) {
+			return;
+		}
+
+		localStorage.setItem(
+			"searchResult" + props.formFor,
+			JSON.stringify({ movie: movie, toggleSwitch: toggleSwitch })
+		);
+		props.updateFlag(true);
+	}, [movie]);
 
 	React.useEffect(() => {
 		const storage = JSON.parse(
@@ -73,6 +70,7 @@ function SearchForm(props) {
 								type="text"
 								// required={props.formFor !== "SavedMovies"}
 								onChange={handleMovieChange}
+								maxLength={120}
 								value={movie}
 								placeholder="Фильм"
 							/>
@@ -83,13 +81,13 @@ function SearchForm(props) {
 								</span>
 							)} */}
 						</label>
-						<button
+						{/* <button
 							className="search__submit-btn opacity_button"
 							type="submit"
 							// disabled={props.formFor !== "SavedMovies" && movie.length < 1}
 						>
 							Найти
-						</button>
+						</button> */}
 					</form>
 				</div>
 

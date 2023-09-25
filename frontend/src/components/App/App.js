@@ -18,6 +18,7 @@ import { api } from "../../utils/MainApi";
 
 function App() {
 	const [loggedIn, setLoggedIn] = React.useState(false);
+	const [isUserLoaded, setIsUserLoaded] = React.useState(false);
 
 	const [savedMovies, setSavedMovies] = React.useState([]);
 
@@ -58,6 +59,7 @@ function App() {
 
 			return true;
 		} else {
+			setIsUserLoaded(true);
 			return false;
 		}
 	}
@@ -75,6 +77,7 @@ function App() {
 	function handleSignOut() {
 		localStorage.clear();
 		setLoggedIn(false);
+		setIsUserLoaded(false);
 
 		navigate("/", { replace: true });
 	}
@@ -116,6 +119,9 @@ function App() {
 			})
 			.catch((err) => {
 				console.log(err, "error in searching userInfo");
+			})
+			.finally(() => {
+				setIsUserLoaded(true);
 			});
 
 		api
@@ -155,6 +161,7 @@ function App() {
 							<ProtectedRoute
 								element={Movies}
 								loggedIn={loggedIn}
+								isUserLoaded={isUserLoaded}
 								onMovieDelete={handleMovieDelete}
 								onSaveMovie={handleMovieSave}
 								savedMoviesList={savedMovies}
@@ -168,6 +175,7 @@ function App() {
 								element={SavedMovies}
 								savedMoviesList={savedMovies}
 								loggedIn={loggedIn}
+								isUserLoaded={isUserLoaded}
 								onMovieDelete={handleMovieDelete}
 							/>
 						}
@@ -179,6 +187,7 @@ function App() {
 								element={Profile}
 								onSignOut={handleSignOut}
 								loggedIn={loggedIn}
+								isUserLoaded={isUserLoaded}
 								onUpdateUser={handleUpdateUser}
 							/>
 						}
