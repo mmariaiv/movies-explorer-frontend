@@ -17,6 +17,14 @@ function Profile(props) {
 	function handleSubmit(evt) {
 		evt.preventDefault();
 
+		if (
+			(!values.email || values.email === currentUser.userEmail) &&
+			(!values.name || values.name === currentUser.userName)
+		) {
+			setToggledButtons(false);
+			return;
+		}
+
 		props
 			.onUpdateUser({
 				email: values.email,
@@ -117,9 +125,13 @@ function Profile(props) {
 
 						<button
 							disabled={
-								!isValid ||
-								((!values.email || values.email === currentUser.userEmail) &&
-									(!values.name || values.name === currentUser.userName))
+								!isValid &&
+								!(
+									!values.name &&
+									values?.name !== "" &&
+									!values.email &&
+									values?.email !== ""
+								)
 							}
 							type="submit"
 							className={`edit-profile__submit-btn opacity_button ${
