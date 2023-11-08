@@ -1,6 +1,8 @@
 # Дипломный проект movies-explorer
 Сервис представляет собой сайт с возможностью добавлять в избранное понравившиеся фильмы. Присутствует авторизация.
 
+Репозиторий для приложения проекта Movies-explorer, включающий фронтенд и бэкенд части приложения со следующими возможностями: авторизации и регистрации пользователей, операции с карточками фильмов и пользователями. Бэкенд располагается в директории backend/, а фронтенд - в frontend/.
+
 ### Стэк проекта:
 <p align="center">  <a href="https://www.mongodb.com" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="mongodb" height="40"/></a>
 <a href="https://nodejs.org/en/about" target="_blank" rel="noreferrer"><img src="https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="nodejs" height="40"/></a>
